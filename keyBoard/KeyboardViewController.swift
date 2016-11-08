@@ -85,7 +85,7 @@ class KeyboardViewController: UIInputViewController {
 /*  =========>> private variables <<=========  */
     private var keyboardView: UIView!
     private var currentXY: (x: Int, y: Int) = (x: 2, y: 5)  // start with 'H'
-    
+    private var isUpper = true  // if uppercase character is shown
     private var layoutGrid = Array<Array<UIButton>?>()
     
     
@@ -133,7 +133,9 @@ class KeyboardViewController: UIInputViewController {
      case key is pressed
     */
     @IBAction func caseKeyPressed(sender: UIButton!){
-        
+        // flip the boolean, and convert case
+        isUpper = !isUpper
+        convertCase(toUpper: isUpper)
     }
 /*  =========>> Utility Function <<=========  */
     /**
@@ -171,15 +173,27 @@ class KeyboardViewController: UIInputViewController {
     /**
      convert symbolic keys to lowercase/uppercase
     */
-    private func _convertCase(toUpper: Bool){
+    private func convertCase(toUpper: Bool){
         if toUpper{
-            for button in firstRow{
+            for button in forthRow{
                 button.setTitle(button.currentTitle!.uppercased(), for: UIControlState.normal)
+            }
+            for button in thirdRow{
+                button.setTitle(button.currentTitle!.uppercased(), for: UIControlState.normal)
+            }
+            for i in 1..<secondRow.count-1{
+                secondRow[i].setTitle(secondRow[i].currentTitle!.uppercased(), for: UIControlState.normal)
             }
         }
         else{
-            for button in firstRow{
+            for button in forthRow{
                 button.setTitle(button.currentTitle!.lowercased(), for: UIControlState.normal)
+            }
+            for button in thirdRow{
+                button.setTitle(button.currentTitle!.lowercased(), for: UIControlState.normal)
+            }
+            for i in 1..<secondRow.count-1{
+                secondRow[i].setTitle(secondRow[i].currentTitle!.lowercased(), for: UIControlState.normal)
             }
         }
 
