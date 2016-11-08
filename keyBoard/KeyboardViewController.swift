@@ -46,9 +46,14 @@ class KeyboardViewController: UIInputViewController {
             button.addTarget(self, action: #selector(self.keyPressed(sender:)), for: .touchUpInside)
         }
         // add press event, but not for caseKey [0] and backSpace [-1]
-        for i in 1..<secondRow.count-1{
-            secondRow[i].addTarget(self, action: #selector(self.keyPressed(sender:)), for: .touchUpInside)
+        for button in secondRow{
+            button.addTarget(self, action: #selector(self.keyPressed(sender:)), for: .touchUpInside)
         }
+        // store firstRow
+        firstRow.append(numberKey)
+        firstRow.append(nextKeyboardButton)
+        firstRow.append(spaceKey)
+        firstRow.append(returnKey)
         
         // store into layoutGrid (coordinate system)
         layoutGrid.append(firstRow)
@@ -90,7 +95,7 @@ class KeyboardViewController: UIInputViewController {
     
     
 /*  =========>> IB Outlet <<=========  */
-    @IBOutlet var nextKeyboardButton: UIButton!
+    
     
     /// symbol, next, space, return
     @IBOutlet var firstRow: Array<UIButton> = Array<UIButton>()   // symbol->number, next, space, return
@@ -107,6 +112,12 @@ class KeyboardViewController: UIInputViewController {
     /// the suggested words
     @IBOutlet var completeRow: Array<UIButton> = Array<UIButton>()
     
+    @IBOutlet weak var numberKey: UIButton!
+    @IBOutlet var nextKeyboardButton: UIButton!
+    @IBOutlet weak var spaceKey: UIButton!
+    @IBOutlet weak var returnKey: UIButton!
+    @IBOutlet weak var caseKey: UIButton!
+    @IBOutlet weak var backSpaceKey: UIButton!
 /*  =========>> IB Actions <<=========  */
     
     /**
@@ -137,6 +148,24 @@ class KeyboardViewController: UIInputViewController {
         isUpper = !isUpper
         convertCase(toUpper: isUpper)
     }
+    
+    
+    /** mocking bluetooth signal */
+    @IBAction func btMove(sender: UIButton!){
+        switch sender.currentTitle! {
+            case "Left":
+                _move(direction: .Left)
+            case "Right":
+                _move(direction: .Right)
+            case "Up":
+                _move(direction: .Up)
+            case "Down":
+                _move(direction: .Down)
+            default:
+                break
+        }
+    }
+    
 /*  =========>> Utility Function <<=========  */
     /**
      when a symbolic key(non-operation key) is pressed
@@ -181,8 +210,8 @@ class KeyboardViewController: UIInputViewController {
             for button in thirdRow{
                 button.setTitle(button.currentTitle!.uppercased(), for: UIControlState.normal)
             }
-            for i in 1..<secondRow.count-1{
-                secondRow[i].setTitle(secondRow[i].currentTitle!.uppercased(), for: UIControlState.normal)
+            for button in secondRow{
+                button.setTitle(button.currentTitle!.uppercased(), for: UIControlState.normal)
             }
         }
         else{
@@ -192,8 +221,8 @@ class KeyboardViewController: UIInputViewController {
             for button in thirdRow{
                 button.setTitle(button.currentTitle!.lowercased(), for: UIControlState.normal)
             }
-            for i in 1..<secondRow.count-1{
-                secondRow[i].setTitle(secondRow[i].currentTitle!.lowercased(), for: UIControlState.normal)
+            for button in secondRow{
+                button.setTitle(button.currentTitle!.lowercased(), for: UIControlState.normal)
             }
         }
 
@@ -207,18 +236,23 @@ class KeyboardViewController: UIInputViewController {
     private func _move(direction: Movement){
         var lastXY = currentXY
         switch direction {
+            /**
+            x controls up/down, y controls left/right
+             because we index like [xRow][yColumn]
+                */
             case .Left:
-                currentXY.x -= 1
-            case .Right:
-                currentXY.x += 1
-            case .Up:
-                currentXY.y += 1
-            case .Down:
                 currentXY.y -= 1
+            case .Right:
+                currentXY.y += 1
+            case .Up:
+                currentXY.x += 1
+            case .Down:
+                currentXY.x -= 1
             default:
                 break
         }
-        if  (currentXY.x < 0 ||
+        if  (currentXY.x < 0 || currentXY.x >= 4 ||
+            currentXY.y < 0 ||
             currentXY.y >= (layoutGrid[currentXY.x]?.count)!){  // if out of bound
             // stays the same, Do-not-wrap
             currentXY = lastXY
