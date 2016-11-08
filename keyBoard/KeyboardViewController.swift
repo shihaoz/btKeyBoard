@@ -37,6 +37,19 @@ class KeyboardViewController: UIInputViewController {
         /// load UI
         loadInterface()
     
+        // add press event
+        for button in forthRow{
+            button.addTarget(self, action: #selector(self.keyPressed(sender:)), for: .touchUpInside)
+        }
+        // add press event
+        for button in thirdRow{
+            button.addTarget(self, action: #selector(self.keyPressed(sender:)), for: .touchUpInside)
+        }
+        // add press event, but not for caseKey [0] and backSpace [-1]
+        for i in 1..<secondRow.count-1{
+            secondRow[i].addTarget(self, action: #selector(self.keyPressed(sender:)), for: .touchUpInside)
+        }
+        
         // store into layoutGrid (coordinate system)
         layoutGrid.append(firstRow)
         layoutGrid.append(secondRow)
@@ -51,6 +64,8 @@ class KeyboardViewController: UIInputViewController {
                 button.layer.shadowRadius = 0.0;
             }
         }
+        
+        _updateSelect()
         
     }
     
@@ -69,8 +84,8 @@ class KeyboardViewController: UIInputViewController {
     }
 /*  =========>> private variables <<=========  */
     private var keyboardView: UIView!
-    private var currentXY: (Int, Int) = (2, 6)  // start with 'H'
-
+    private var currentXY: (x: Int, y: Int) = (x: 2, y: 5)  // start with 'H'
+    
     private var layoutGrid = Array<Array<UIButton>?>()
     
     
@@ -93,16 +108,6 @@ class KeyboardViewController: UIInputViewController {
     @IBOutlet var completeRow: Array<UIButton> = Array<UIButton>()
     
 /*  =========>> IB Actions <<=========  */
-    
-    /**
-     when a symbolic key(non-operation key) is pressed
-     
-     @effect:
-        insert button text to input
-     */
-    @IBAction func keyPressed(sender: UIButton!){
-        textDocumentProxy.insertText(sender.currentTitle!)
-    }
     
     /**
      space is pressed
@@ -131,6 +136,15 @@ class KeyboardViewController: UIInputViewController {
         
     }
 /*  =========>> Utility Function <<=========  */
+    /**
+     when a symbolic key(non-operation key) is pressed
+     
+     @effect:
+     insert button text to input
+     */
+    @objc private func keyPressed(sender: UIButton!){
+        textDocumentProxy.insertText(sender.currentTitle!)
+    }
     /**
      load the view
      
@@ -170,8 +184,41 @@ class KeyboardViewController: UIInputViewController {
         }
 
     }
-    
-    private func _updateSelect(){
-        layoutGrid[currentXY.]
+    enum Movement {
+        case Left
+        case Right
+        case Up
+        case Down
     }
+    private func _move(direction: Movement){
+        var lastXY = currentXY
+        switch direction {
+            case .Left:
+                currentXY.x -= 1
+            case .Right:
+                currentXY.x += 1
+            case .Up:
+                currentXY.y += 1
+            case .Down:
+                currentXY.y -= 1
+            default:
+                break
+        }
+        if  (currentXY.x < 0 ||
+            currentXY.y >= (layoutGrid[currentXY.x]?.count)!){  // if out of bound
+            // stays the same, Do-not-wrap
+            currentXY = lastXY
+        }
+        else{// remove the selection on last one
+            let targetButton: UIButton = layoutGrid[lastXY.x]![lastXY.y]
+            targetButton.layer.borderWidth = 0.0
+        }
+        _updateSelect()
+    }
+    private func _updateSelect(){
+        let targetButton: UIButton = layoutGrid[currentXY.x]![currentXY.y]
+        targetButton.layer.borderWidth = 2.0
+        targetButton.layer.borderColor = UIColor.blue.cgColor
+    }
+    
 }
