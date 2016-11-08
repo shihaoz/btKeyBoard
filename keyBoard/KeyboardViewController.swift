@@ -51,7 +51,9 @@ class KeyboardViewController: UIInputViewController {
                 button.layer.shadowRadius = 0.0;
             }
         }
+        
     }
+    
     
     override func textDidChange(_ textInput: UITextInput?) {
         // The app has just changed the document's contents, the document context has been updated.
@@ -74,12 +76,21 @@ class KeyboardViewController: UIInputViewController {
     
 /*  =========>> IB Outlet <<=========  */
     @IBOutlet var nextKeyboardButton: UIButton!
-    @IBOutlet var firstRow = Array<UIButton>()   // symbol->number, next, space, return
-    @IBOutlet var secondRow = Array<UIButton>()
-    @IBOutlet var thirdRow = Array<UIButton>()
-    @IBOutlet var forthRow = Array<UIButton>()
     
+    /// symbol, next, space, return
+    @IBOutlet var firstRow: Array<UIButton> = Array<UIButton>()   // symbol->number, next, space, return
     
+    /// case, [z->m], backspace
+    @IBOutlet var secondRow: Array<UIButton> = Array<UIButton>()
+    
+    /// [a-l]
+    @IBOutlet var thirdRow: Array<UIButton> = Array<UIButton>()
+    
+    /// [q->P]
+    @IBOutlet var forthRow: Array<UIButton> = Array<UIButton>()
+    
+    /// the suggested words
+    @IBOutlet var completeRow: Array<UIButton> = Array<UIButton>()
     
 /*  =========>> IB Actions <<=========  */
     
@@ -113,7 +124,12 @@ class KeyboardViewController: UIInputViewController {
     @IBAction func returnPressed(sender: UIButton!){
         textDocumentProxy.insertText("\n")
     }
-    
+    /**
+     case key is pressed
+    */
+    @IBAction func caseKeyPressed(sender: UIButton!){
+        
+    }
 /*  =========>> Utility Function <<=========  */
     /**
      load the view
