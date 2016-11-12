@@ -73,29 +73,18 @@ class KeyboardViewController: UIInputViewController {
         }
         
         _updateSelect()
-        
+        suggestion.buildTree(words: dictionary)
     }
     
     
-//    override func textDidChange(_ textInput: UITextInput?) {
-//        // The app has just changed the document's contents, the document context has been updated.
-//        
-//        var textColor: UIColor
-//        let proxy = self.textDocumentProxy
-//        if proxy.keyboardAppearance == UIKeyboardAppearance.dark {
-//            textColor = UIColor.white
-//        } else {
-//            textColor = UIColor.black
-//        }
-//        self.nextKeyboardButton.setTitleColor(textColor, for: [])
-//    }
 /*  =========>> private variables <<=========  */
     private var keyboardView: UIView!
     private var currentXY: (x: Int, y: Int) = (x: 2, y: 5)  // start with 'H'
     private var isUpper = true  // if uppercase character is shown
     private var layoutGrid = Array<Array<UIButton>?>()
+    private var suggestion = prefixTree()
     
-    
+
 /*  =========>> IB Outlet <<=========  */
     
     
@@ -134,6 +123,7 @@ class KeyboardViewController: UIInputViewController {
     */
     @IBAction func backSpacePress(sender: UIButton!){
         textDocumentProxy.deleteBackward()
+        _textChange()
     }
     
     /**
@@ -177,6 +167,7 @@ class KeyboardViewController: UIInputViewController {
      */
     @objc private func keyPressed(sender: UIButton!){
         textDocumentProxy.insertText(sender.currentTitle!)
+        _textChange()
     }
     /**
      load the view
@@ -301,5 +292,22 @@ class KeyboardViewController: UIInputViewController {
         targetButton.layer.borderWidth = 2.0
         targetButton.layer.borderColor = UIColor.blue.cgColor
     }
+    private func _textChange(){
+        var list: Array<String> = []
+        if textDocumentProxy.documentContextBeforeInput != nil{
+            list = suggestion.getSuggestion(target: textDocumentProxy.documentContextBeforeInput! + (textDocumentProxy.documentContextAfterInput ?? ""))
+        }
+        print(list)
+        for i in 0..<list.count{
+            completeRow[i].setTitle(list[i], for: UIControlState.normal)
+        }
+        for i in list.count..<completeRow.count{
+            completeRow[i].setTitle(" ", for: UIControlState.normal)
+        }
+    }
     
+    
+    private var dictionary = [
+        "AB", "ABC", "ABD", "ACD",
+    ]
 }
