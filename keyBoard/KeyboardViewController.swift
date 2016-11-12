@@ -46,9 +46,11 @@ class KeyboardViewController: UIInputViewController {
             button.addTarget(self, action: #selector(self.keyPressed(sender:)), for: .touchUpInside)
         }
         // add press event, but not for caseKey [0] and backSpace [-1]
-        for button in secondRow{
+        for idx in 1..<secondRow.count-1{
+            var button = secondRow[idx]
             button.addTarget(self, action: #selector(self.keyPressed(sender:)), for: .touchUpInside)
         }
+        
         // store firstRow
         firstRow.append(numberKey)
         firstRow.append(nextKeyboardButton)
@@ -75,18 +77,18 @@ class KeyboardViewController: UIInputViewController {
     }
     
     
-    override func textDidChange(_ textInput: UITextInput?) {
-        // The app has just changed the document's contents, the document context has been updated.
-        
-        var textColor: UIColor
-        let proxy = self.textDocumentProxy
-        if proxy.keyboardAppearance == UIKeyboardAppearance.dark {
-            textColor = UIColor.white
-        } else {
-            textColor = UIColor.black
-        }
-        self.nextKeyboardButton.setTitleColor(textColor, for: [])
-    }
+//    override func textDidChange(_ textInput: UITextInput?) {
+//        // The app has just changed the document's contents, the document context has been updated.
+//        
+//        var textColor: UIColor
+//        let proxy = self.textDocumentProxy
+//        if proxy.keyboardAppearance == UIKeyboardAppearance.dark {
+//            textColor = UIColor.white
+//        } else {
+//            textColor = UIColor.black
+//        }
+//        self.nextKeyboardButton.setTitleColor(textColor, for: [])
+//    }
 /*  =========>> private variables <<=========  */
     private var keyboardView: UIView!
     private var currentXY: (x: Int, y: Int) = (x: 2, y: 5)  // start with 'H'
@@ -98,7 +100,7 @@ class KeyboardViewController: UIInputViewController {
     
     
     /// symbol, next, space, return
-    @IBOutlet var firstRow: Array<UIButton> = Array<UIButton>()   // symbol->number, next, space, return
+    var firstRow: Array<UIButton> = Array<UIButton>()   // symbol->number, next, space, return
     
     /// case, [z->m], backspace
     @IBOutlet var secondRow: Array<UIButton> = Array<UIButton>()
@@ -210,7 +212,8 @@ class KeyboardViewController: UIInputViewController {
             for button in thirdRow{
                 button.setTitle(button.currentTitle!.uppercased(), for: UIControlState.normal)
             }
-            for button in secondRow{
+            for idx in 1..<secondRow.count-1{
+                var button = secondRow[idx]
                 button.setTitle(button.currentTitle!.uppercased(), for: UIControlState.normal)
             }
         }
@@ -221,7 +224,8 @@ class KeyboardViewController: UIInputViewController {
             for button in thirdRow{
                 button.setTitle(button.currentTitle!.lowercased(), for: UIControlState.normal)
             }
-            for button in secondRow{
+            for idx in 1..<secondRow.count-1{
+                var button = secondRow[idx]
                 button.setTitle(button.currentTitle!.lowercased(), for: UIControlState.normal)
             }
         }
@@ -245,22 +249,51 @@ class KeyboardViewController: UIInputViewController {
             case .Right:
                 currentXY.y += 1
             case .Up:
+                if currentXY.x == 0 {// special mapping
+                    switch currentXY.y {
+                    case 2: // (0,2) --> (1,4) space --> V
+                        currentXY.y = 4
+                    case 3: // (0,3) --> (1,8) return --> backspace
+                        currentXY.y = 8
+                    default:
+                        break
+                    }
+                }
                 currentXY.x += 1
             case .Down:
+                if currentXY.x == 1{// special mapping
+                    switch currentXY.y {
+                    case 8: // backspace --> return
+                        currentXY.y = 3
+                    case 2: // x --> Next
+                        currentXY.y = 1
+                    case 3...7: // c,v,b,n,m --> space
+                        currentXY.y = 2
+                    default:
+                        break
+                    }
+                }
                 currentXY.x -= 1
             default:
                 break
         }
-        if  (currentXY.x < 0 || currentXY.x >= 4 ||
-            currentXY.y < 0 ||
-            currentXY.y >= (layoutGrid[currentXY.x]?.count)!){  // if out of bound
+        if  (currentXY.x < 0 || currentXY.x >= 4) {  // if out of bound
             // stays the same, Do-not-wrap
             currentXY = lastXY
         }
-        else{// remove the selection on last one
+        else{
+            // contain left or right operation
+            if currentXY.y < 0 {
+                currentXY.y = 0
+            }
+            if currentXY.y >= (layoutGrid[currentXY.x]?.count)!{
+                currentXY.y = (layoutGrid[currentXY.x]?.count)! - 1
+            }
+            // remove the selection on last one
             let targetButton: UIButton = layoutGrid[lastXY.x]![lastXY.y]
             targetButton.layer.borderWidth = 0.0
         }
+
         _updateSelect()
     }
     private func _updateSelect(){

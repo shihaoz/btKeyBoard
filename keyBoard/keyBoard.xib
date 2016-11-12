@@ -30,13 +30,6 @@
                 <outletCollection property="completeRow" destination="JAw-Ng-OZn" collectionClass="NSMutableArray" id="t6X-XS-dnY"/>
                 <outletCollection property="completeRow" destination="my8-RI-EXO" collectionClass="NSMutableArray" id="Lan-EQ-xSx"/>
                 <outletCollection property="completeRow" destination="KsO-Mt-2jB" collectionClass="NSMutableArray" id="obw-2U-Lbb"/>
-                <outletCollection property="secondRow" destination="92R-XH-tyK" collectionClass="NSMutableArray" id="7sO-mO-eP2"/>
-                <outletCollection property="secondRow" destination="eXY-0v-0PD" collectionClass="NSMutableArray" id="30s-KD-PC6"/>
-                <outletCollection property="secondRow" destination="PIQ-zP-4eZ" collectionClass="NSMutableArray" id="5Hu-fu-DnC"/>
-                <outletCollection property="secondRow" destination="XK6-aL-7Kw" collectionClass="NSMutableArray" id="SE8-86-bU8"/>
-                <outletCollection property="secondRow" destination="Bmo-iP-krS" collectionClass="NSMutableArray" id="hCz-A2-PUN"/>
-                <outletCollection property="secondRow" destination="x8I-A4-fB3" collectionClass="NSMutableArray" id="K5I-b8-Lrf"/>
-                <outletCollection property="secondRow" destination="0sZ-cO-88P" collectionClass="NSMutableArray" id="3bZ-o3-Dwv"/>
                 <outletCollection property="thirdRow" destination="PZ9-BE-3MN" collectionClass="NSMutableArray" id="J6t-HU-eIz"/>
                 <outletCollection property="thirdRow" destination="S5y-cB-mLu" collectionClass="NSMutableArray" id="2cx-C9-HR5"/>
                 <outletCollection property="thirdRow" destination="sfa-rl-eeh" collectionClass="NSMutableArray" id="iLh-22-XwI"/>
@@ -46,6 +39,15 @@
                 <outletCollection property="thirdRow" destination="swM-kg-l8j" collectionClass="NSMutableArray" id="QrJ-G1-ZbX"/>
                 <outletCollection property="thirdRow" destination="Nh0-ot-VER" collectionClass="NSMutableArray" id="No8-x0-rTi"/>
                 <outletCollection property="thirdRow" destination="LlT-WC-QbX" collectionClass="NSMutableArray" id="IDE-Gu-VyV"/>
+                <outletCollection property="secondRow" destination="56N-z7-dai" collectionClass="NSMutableArray" id="ixH-28-VNd"/>
+                <outletCollection property="secondRow" destination="92R-XH-tyK" collectionClass="NSMutableArray" id="S9n-am-14A"/>
+                <outletCollection property="secondRow" destination="eXY-0v-0PD" collectionClass="NSMutableArray" id="Lk5-tM-DRD"/>
+                <outletCollection property="secondRow" destination="PIQ-zP-4eZ" collectionClass="NSMutableArray" id="cjm-95-fCc"/>
+                <outletCollection property="secondRow" destination="XK6-aL-7Kw" collectionClass="NSMutableArray" id="Mcb-Po-aKM"/>
+                <outletCollection property="secondRow" destination="Bmo-iP-krS" collectionClass="NSMutableArray" id="Jzg-JM-iKS"/>
+                <outletCollection property="secondRow" destination="x8I-A4-fB3" collectionClass="NSMutableArray" id="p65-P3-H1B"/>
+                <outletCollection property="secondRow" destination="0sZ-cO-88P" collectionClass="NSMutableArray" id="9bD-tT-6bV"/>
+                <outletCollection property="secondRow" destination="4zh-ic-OLa" collectionClass="NSMutableArray" id="lGC-dd-7ls"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
