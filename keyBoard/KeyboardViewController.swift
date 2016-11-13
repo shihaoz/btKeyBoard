@@ -73,6 +73,7 @@ class KeyboardViewController: UIInputViewController {
         }
         
         _updateSelect()
+        readFile()
         suggestion.buildTree(words: dictionary)
     }
     
@@ -306,8 +307,15 @@ class KeyboardViewController: UIInputViewController {
         }
     }
     
-    
-    private var dictionary = [
-        "AB", "ABC", "ABD", "ACD",
-    ]
+    func readFile(){
+        if let path = Bundle.main.path(forResource: "words", ofType: "txt") {
+            do {
+                let data = try String(contentsOfFile: path, encoding: .utf8)
+                dictionary = data.components(separatedBy: .newlines)
+            } catch {
+                print(error)
+            }
+        }
+    }
+    private var dictionary: Array<String> = []
 }
