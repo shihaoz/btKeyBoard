@@ -117,6 +117,7 @@ class KeyboardViewController: UIInputViewController {
     */
     @IBAction func spacePressed(sender: UIButton!){
         textDocumentProxy.insertText(" ")
+        _textChange()
     }
     
     /**
@@ -296,7 +297,19 @@ class KeyboardViewController: UIInputViewController {
     private func _textChange(){
         var list: Array<String> = []
         if textDocumentProxy.documentContextBeforeInput != nil{
-            list = suggestion.getSuggestion(target: textDocumentProxy.documentContextBeforeInput! + (textDocumentProxy.documentContextAfterInput ?? ""))
+            var targetWord = textDocumentProxy.documentContextBeforeInput! + (textDocumentProxy.documentContextAfterInput ?? "")
+            /**
+             when user input looks like "abc  abd   ", ends in a whitespace, that means no completion is needed
+             otherwise complete on the last word --> e.g. "abc abd" will complete on abd,
+                                                    "ab" will complete on ab
+             */
+            if targetWord.isEmpty || targetWord.characters.last == " " {
+                // dont do shit
+            }
+            else{
+                targetWord = targetWord.components(separatedBy: " ").last!   // complete on last word
+                list = suggestion.getSuggestion(target: targetWord)
+            }
         }
         print(list)
         for i in 0..<list.count{
