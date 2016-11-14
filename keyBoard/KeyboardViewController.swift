@@ -21,6 +21,11 @@ class KeyboardViewController: UIInputViewController {
         static let rowHeight = CGFloat(30)         // height of a row
         static let rowSpacing = CGFloat(5)         // spacing within a row
         static let screenWidth: CGFloat = UIScreen.main.bounds.width
+        static var buttonWidth: CGFloat = (screenWidth - 9*rowSpacing)/10
+        
+        static let firstRowRatios: Array<Float> = [
+            0.2, 0.2, 0.4, 0.2
+        ]
     }
     
     override func updateViewConstraints() {
@@ -82,14 +87,16 @@ class KeyboardViewController: UIInputViewController {
         }
         
         let screenWidth = UIScreen.main.bounds.width
-        var x = CGFloat(5), y = CGFloat(5)
+        print(screenWidth)
+        
+        var x = CGFloat(0), y = CGFloat(5)
         
         completeRowStack.frame = CGRect(x: x, y: y, width: keyBoardLayOut.screenWidth-2*x, height: keyBoardLayOut.rowHeight)
         completeRowStack.alignment = UIStackViewAlignment.fill
         completeRowStack.distribution = UIStackViewDistribution.fillEqually
         completeRowStack.spacing = keyBoardLayOut.rowSpacing
         
-        x = CGFloat(0)
+        x = getLeadingTrailingSpace(numberElement: 10)
         y += keyBoardLayOut.rowHeight + keyBoardLayOut.spaceBetweenRow
         
         forthRowStack = UIStackView(frame: CGRect(x: x, y: y, width: screenWidth-2*x, height: keyBoardLayOut.rowHeight ))
@@ -101,7 +108,7 @@ class KeyboardViewController: UIInputViewController {
         forthRowStack!.spacing = 5
         view.addSubview(forthRowStack!)
 
-        x = CGFloat(0)
+        x = getLeadingTrailingSpace(numberElement: thirdRow.count)
         y += keyBoardLayOut.rowHeight + keyBoardLayOut.spaceBetweenRow
         
         thirdRowStack = UIStackView(frame: CGRect(x: x, y: y, width: screenWidth-2*x, height: keyBoardLayOut.rowHeight))
@@ -113,7 +120,7 @@ class KeyboardViewController: UIInputViewController {
         thirdRowStack!.spacing = 5
         view.addSubview(thirdRowStack!)
         
-        x = CGFloat(0)
+        x = getLeadingTrailingSpace(numberElement: secondRow.count)
         y += keyBoardLayOut.rowHeight + keyBoardLayOut.spaceBetweenRow
 
         secondRowStack = UIStackView(frame: CGRect(x: x, y: y, width: screenWidth-2*x, height: keyBoardLayOut.rowHeight))
@@ -128,15 +135,22 @@ class KeyboardViewController: UIInputViewController {
         x = CGFloat(0)
         y += keyBoardLayOut.rowHeight + keyBoardLayOut.spaceBetweenRow
         
-        firstRowStack = UIStackView(frame: CGRect(x: x, y: y, width: screenWidth-2*x, height: keyBoardLayOut.rowHeight))
-        for button in firstRow{
-            firstRowStack?.addArrangedSubview(button)
-        }
-        firstRowStack!.alignment = UIStackViewAlignment.fill
-        firstRowStack!.distribution = UIStackViewDistribution.fillEqually
-        firstRowStack!.spacing = 5
-        view.addSubview(firstRowStack!)
         
+        var widthArray: Array<CGFloat> = []
+        for w in keyBoardLayOut.firstRowRatios{
+            widthArray.append(CGFloat(
+                Float(keyBoardLayOut.screenWidth - keyBoardLayOut.rowSpacing * CGFloat(keyBoardLayOut.firstRowRatios.count)) * w))
+        }
+        setButtonsSize(x: x, y: y, width: widthArray, height: keyBoardLayOut.rowHeight, row: firstRow)
+//        firstRowStack = UIStackView(frame: CGRect(x: x, y: y, width: screenWidth-2*x, height: keyBoardLayOut.rowHeight))
+//        for button in firstRow{
+//            firstRowStack?.addArrangedSubview(button)
+//        }
+//        firstRowStack!.alignment = UIStackViewAlignment.fill
+//        firstRowStack!.distribution = UIStackViewDistribution.fill
+//        firstRowStack!.spacing = 5
+//        view.addSubview(firstRowStack!)
+//        
         
         _updateSelect(target: currentXY)
         readFile()
@@ -265,6 +279,36 @@ class KeyboardViewController: UIInputViewController {
     }
     
 /*  =========>> Utility Function <<=========  */
+    
+    private func setButtonsSize(x: CGFloat, y: CGFloat, width: Array<CGFloat>, height: CGFloat, row: Array<UIButton>){
+        if width.count != row.count {
+            print("error: width-count \(width.count) doesn't match row-count \(row.count)")
+        }
+        else{
+            var idx = 0
+            var startX = x
+            for button in row{
+                button.frame = CGRect(x: startX, y: y, width: width[idx], height: height)
+                startX += width[idx] + keyBoardLayOut.rowSpacing
+                idx += 1
+            }
+        }
+    }
+    
+    /**
+     @input: number of elements on a row
+     @effect:
+        get leading/trailing space
+    */
+    private func getLeadingTrailingSpace(numberElement: Int) -> CGFloat{
+        return (keyBoardLayOut.screenWidth
+            - (CGFloat(numberElement) * keyBoardLayOut.buttonWidth)
+            - (CGFloat((numberElement-1)) * keyBoardLayOut.rowSpacing))/2
+    }
+    
+    /**
+     set selection box for this button
+    */
     func selectButton(button: UIButton!) -> Void {
         for row in 0..<layoutGrid.count{
             for idx in 0..<layoutGrid[row]!.count{
