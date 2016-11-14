@@ -406,7 +406,7 @@ class KeyboardViewController: UIInputViewController {
             case .Right:
                 targetXY.y += 1
             case .Up:
-                if targetXY.x == 0 {// special mapping
+                if targetXY.x == 0 {// special mapping for first->secondRow
                     switch targetXY.y {
                     case 2: // (0,2) --> (1,4) space --> V
                         targetXY.y = 4
@@ -416,9 +416,21 @@ class KeyboardViewController: UIInputViewController {
                         break
                     }
                 }
+                else if targetXY.x == 3 {   // special mapping for forth->completeRow
+                    switch targetXY.y{
+                    case 0...3: // (q,w,e,r) --> 1st suggested word
+                        targetXY.y = 0
+                    case 4...6: // (t,y,u) --> 2nd suggested word
+                        targetXY.y = 1
+                    case 7...9: // (i,o,p) --> 3rd suggested word
+                        targetXY.y = 2
+                    default:
+                        break
+                    }
+                }
                 targetXY.x += 1
             case .Down:
-                if targetXY.x == 1{// special mapping
+                if targetXY.x == 1{// special mapping for second->firstRow
                     switch targetXY.y {
                     case 8: // backspace --> return
                         targetXY.y = 3
@@ -430,11 +442,23 @@ class KeyboardViewController: UIInputViewController {
                         break
                     }
                 }
+                else if(targetXY.x == 4){ // special mapping for complete->forthRow
+                    switch  targetXY.y {
+                    case 0:
+                        targetXY.y = 0
+                    case 1:
+                        targetXY.y = 4
+                    case 2:
+                        targetXY.y = 7
+                    default:
+                        break
+                    }
+                }
                 targetXY.x -= 1
             default:
                 break
         }
-        if  (targetXY.x < 0 || targetXY.x >= 4) {  // if out of bound
+        if  (targetXY.x < 0 || targetXY.x >= layoutGrid.count) {  // if out of bound
             // stays the same, Do-not-wrap
 
         }

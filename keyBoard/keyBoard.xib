@@ -189,44 +189,6 @@
                         <action selector="caseKeyPressedWithSender:" destination="-1" eventType="touchUpInside" id="QzQ-Wc-sMY"/>
                     </connections>
                 </button>
-                <stackView autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="jnB-kT-lUC">
-                    <rect key="frame" x="89" y="246" width="186" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6U0-GO-WUp">
-                            <rect key="frame" x="0.0" y="0.0" width="39" height="30"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <state key="normal" title="Left"/>
-                            <connections>
-                                <action selector="btMoveWithSender:" destination="-1" eventType="touchUpInside" id="Ltd-HP-ikd"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZPy-Iv-mnn">
-                            <rect key="frame" x="49" y="0.0" width="39" height="30"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <state key="normal" title="Up"/>
-                            <connections>
-                                <action selector="btMoveWithSender:" destination="-1" eventType="touchUpInside" id="52J-Fg-XF0"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0nh-ik-Li4">
-                            <rect key="frame" x="98" y="0.0" width="39" height="30"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <state key="normal" title="Down"/>
-                            <connections>
-                                <action selector="btMoveWithSender:" destination="-1" eventType="touchUpInside" id="7BE-Ep-Uxf"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yyR-bI-AZ1">
-                            <rect key="frame" x="147" y="0.0" width="39" height="30"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <state key="normal" title="Right"/>
-                            <connections>
-                                <action selector="btMoveWithSender:" destination="-1" eventType="touchUpInside" id="Exr-dj-XCv"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                </stackView>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PZ9-BE-3MN">
                     <rect key="frame" x="9" y="108" width="30" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -399,6 +361,44 @@
                             </state>
                             <connections>
                                 <action selector="suggestPressedWithSender:" destination="-1" eventType="touchUpInside" id="2io-2e-1Au"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
+                <stackView autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="jnB-kT-lUC">
+                    <rect key="frame" x="153" y="0.0" width="186" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6U0-GO-WUp">
+                            <rect key="frame" x="0.0" y="0.0" width="39" height="30"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <state key="normal" title="Left"/>
+                            <connections>
+                                <action selector="btMoveWithSender:" destination="-1" eventType="touchUpInside" id="Ltd-HP-ikd"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZPy-Iv-mnn">
+                            <rect key="frame" x="49" y="0.0" width="39" height="30"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <state key="normal" title="Up"/>
+                            <connections>
+                                <action selector="btMoveWithSender:" destination="-1" eventType="touchUpInside" id="52J-Fg-XF0"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0nh-ik-Li4">
+                            <rect key="frame" x="98" y="0.0" width="39" height="30"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <state key="normal" title="Down"/>
+                            <connections>
+                                <action selector="btMoveWithSender:" destination="-1" eventType="touchUpInside" id="7BE-Ep-Uxf"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yyR-bI-AZ1">
+                            <rect key="frame" x="147" y="0.0" width="39" height="30"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <state key="normal" title="Right"/>
+                            <connections>
+                                <action selector="btMoveWithSender:" destination="-1" eventType="touchUpInside" id="Exr-dj-XCv"/>
                             </connections>
                         </button>
                     </subviews>
