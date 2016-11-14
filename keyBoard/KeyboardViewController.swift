@@ -20,12 +20,9 @@ class KeyboardViewController: UIInputViewController {
         static let spaceBetweenRow = CGFloat(10)   // vertical space between different row
         static let rowHeight = CGFloat(30)         // height of a row
         static let rowSpacing = CGFloat(5)         // spacing within a row
-        
         static let screenWidth: CGFloat = UIScreen.main.bounds.width
     }
     
-    @IBOutlet weak var completeRowStack: UIStackView!
-    var forthRowStack: UIStackView? = nil
     override func updateViewConstraints() {
         super.updateViewConstraints()
         
@@ -72,6 +69,7 @@ class KeyboardViewController: UIInputViewController {
         layoutGrid.append(secondRow)
         layoutGrid.append(thirdRow)
         layoutGrid.append(forthRow)
+        layoutGrid.append(completeRow)
         
         for row in layoutGrid{  // round corner
             for button in row!{
@@ -92,7 +90,7 @@ class KeyboardViewController: UIInputViewController {
         completeRowStack.spacing = keyBoardLayOut.rowSpacing
         
         x = CGFloat(0)
-        y += keyBoardLayOut.spaceBetweenRow
+        y += keyBoardLayOut.rowHeight + keyBoardLayOut.spaceBetweenRow
         
         forthRowStack = UIStackView(frame: CGRect(x: x, y: y, width: screenWidth-2*x, height: keyBoardLayOut.rowHeight ))
         for button in forthRow{
@@ -102,28 +100,45 @@ class KeyboardViewController: UIInputViewController {
         forthRowStack!.distribution = UIStackViewDistribution.fillEqually
         forthRowStack!.spacing = 5
         view.addSubview(forthRowStack!)
-// setting style
 
-        _updateSelect()
+        
+        
+        _updateSelect(target: currentXY)
         readFile()
         suggestion.buildTree(words: dictionary)
-        
     }
     
     
 /*  =========>> private variables <<=========  */
+    
+    enum Movement {
+        /// defines a movement signal from Bluetooth
+        case Left
+        case Right
+        case Up
+        case Down
+    }
+    
     private var keyboardView: UIView!
     private var currentXY: (x: Int, y: Int) = (x: 2, y: 5)  // start with 'H'
     private var isUpper = true  // if uppercase character is shown
     private var layoutGrid = Array<Array<UIButton>?>()
     private var suggestion = prefixTree()
+    private var dictionary: Array<String> = []
     
-
+    
+    var forthRowStack: UIStackView? = nil
+    var thirdRowStack: UIStackView? = nil
+    var secondRowStack: UIStackView? = nil
+    var firstRowStack: UIStackView? = nil
+    
 /*  =========>> IB Outlet <<=========  */
     
     
     /// symbol, next, space, return
     var firstRow: Array<UIButton> = Array<UIButton>()   // symbol->number, next, space, return
+    /// suggested word row
+    @IBOutlet weak var completeRowStack: UIStackView!
     
     /// case, [z->m], backspace
     @IBOutlet var secondRow: Array<UIButton> = Array<UIButton>()
@@ -151,6 +166,7 @@ class KeyboardViewController: UIInputViewController {
     @IBAction func spacePressed(sender: UIButton!){
         textDocumentProxy.insertText(" ")
         _textChange()
+        selectButton(button: sender)
     }
     
     /**
@@ -168,6 +184,7 @@ class KeyboardViewController: UIInputViewController {
             }
             textDocumentProxy.insertText(suggestWord! + " ")
         }
+        selectButton(button: sender)
     }
     /**
      backspace is pressed
@@ -175,6 +192,7 @@ class KeyboardViewController: UIInputViewController {
     @IBAction func backSpacePress(sender: UIButton!){
         textDocumentProxy.deleteBackward()
         _textChange()
+        selectButton(button: sender)
     }
     
     /**
@@ -182,6 +200,7 @@ class KeyboardViewController: UIInputViewController {
      */
     @IBAction func returnPressed(sender: UIButton!){
         textDocumentProxy.insertText("\n")
+        selectButton(button: sender)
     }
     /**
      case key is pressed
@@ -190,6 +209,7 @@ class KeyboardViewController: UIInputViewController {
         // flip the boolean, and convert case
         isUpper = !isUpper
         convertCase(toUpper: isUpper)
+        selectButton(button: sender)
     }
     
     
@@ -210,6 +230,16 @@ class KeyboardViewController: UIInputViewController {
     }
     
 /*  =========>> Utility Function <<=========  */
+    func selectButton(button: UIButton!) -> Void {
+        for row in 0..<layoutGrid.count{
+            for idx in 0..<layoutGrid[row]!.count{
+                if layoutGrid[row]?[idx] == button{
+                    _updateSelect(target: (row, idx))
+                    break
+                }
+            }
+        }
+    }
     /**
      when a symbolic key(non-operation key) is pressed
      
@@ -219,7 +249,9 @@ class KeyboardViewController: UIInputViewController {
     @objc private func keyPressed(sender: UIButton!){
         textDocumentProxy.insertText(sender.currentTitle!)
         _textChange()
+        selectButton(button: sender)
     }
+    
     /**
      load the view
      
@@ -243,6 +275,7 @@ class KeyboardViewController: UIInputViewController {
         // addNextButton --- must specify so you can switch between different keyboards
         nextKeyboardButton.addTarget(self, action: #selector(UIInputViewController.advanceToNextInputMode), for: .touchUpInside)
     }
+    
     /**
      convert symbolic keys to lowercase/uppercase
     */
@@ -273,76 +306,91 @@ class KeyboardViewController: UIInputViewController {
         }
 
     }
-    enum Movement {
-        case Left
-        case Right
-        case Up
-        case Down
-    }
+    
+    
+    /**
+     @input: 
+        direction: a movement enum
+     @effect:
+        move the selection box accordingly
+ 
+    */
     private func _move(direction: Movement){
-        var lastXY = currentXY
+        var targetXY = currentXY
         switch direction {
             /**
             x controls up/down, y controls left/right
              because we index like [xRow][yColumn]
                 */
             case .Left:
-                currentXY.y -= 1
+                targetXY.y -= 1
             case .Right:
-                currentXY.y += 1
+                targetXY.y += 1
             case .Up:
-                if currentXY.x == 0 {// special mapping
-                    switch currentXY.y {
+                if targetXY.x == 0 {// special mapping
+                    switch targetXY.y {
                     case 2: // (0,2) --> (1,4) space --> V
-                        currentXY.y = 4
+                        targetXY.y = 4
                     case 3: // (0,3) --> (1,8) return --> backspace
-                        currentXY.y = 8
+                        targetXY.y = 8
                     default:
                         break
                     }
                 }
-                currentXY.x += 1
+                targetXY.x += 1
             case .Down:
-                if currentXY.x == 1{// special mapping
-                    switch currentXY.y {
+                if targetXY.x == 1{// special mapping
+                    switch targetXY.y {
                     case 8: // backspace --> return
-                        currentXY.y = 3
+                        targetXY.y = 3
                     case 2: // x --> Next
-                        currentXY.y = 1
+                        targetXY.y = 1
                     case 3...7: // c,v,b,n,m --> space
-                        currentXY.y = 2
+                        targetXY.y = 2
                     default:
                         break
                     }
                 }
-                currentXY.x -= 1
+                targetXY.x -= 1
             default:
                 break
         }
-        if  (currentXY.x < 0 || currentXY.x >= 4) {  // if out of bound
+        if  (targetXY.x < 0 || targetXY.x >= 4) {  // if out of bound
             // stays the same, Do-not-wrap
-            currentXY = lastXY
+
         }
         else{
             // contain left or right operation
-            if currentXY.y < 0 {
-                currentXY.y = 0
+            if targetXY.y < 0 {
+                targetXY.y = 0
             }
-            if currentXY.y >= (layoutGrid[currentXY.x]?.count)!{
-                currentXY.y = (layoutGrid[currentXY.x]?.count)! - 1
+            if targetXY.y >= (layoutGrid[targetXY.x]?.count)!{
+                targetXY.y = (layoutGrid[targetXY.x]?.count)! - 1
             }
             // remove the selection on last one
-            let targetButton: UIButton = layoutGrid[lastXY.x]![lastXY.y]
-            targetButton.layer.borderWidth = 0.0
+            _updateSelect(target: targetXY)
         }
+    }
 
-        _updateSelect()
+    /**
+     @input: new valid coordinate
+     @effect:
+        1. show selection on new coordinate,
+        2. invalidate selection on old coordinate
+        3. update currentXY
+    */
+    private func _updateSelect(target: (Int, Int)){
+        layoutGrid[currentXY.x]![currentXY.y].layer.borderWidth = 0.0
+        currentXY = target
+        layoutGrid[currentXY.x]![currentXY.y].layer.borderWidth = 2.0
+        layoutGrid[currentXY.x]![currentXY.y].layer.borderColor = UIColor.blue.cgColor
     }
-    private func _updateSelect(){
-        let targetButton: UIButton = layoutGrid[currentXY.x]![currentXY.y]
-        targetButton.layer.borderWidth = 2.0
-        targetButton.layer.borderColor = UIColor.blue.cgColor
-    }
+    
+    /**
+     @effect:
+        call when user input changes
+        update suggested words
+     */
     private func _textChange(){
         var list: Array<String> = []
         if textDocumentProxy.documentContextBeforeInput != nil{
@@ -369,7 +417,10 @@ class KeyboardViewController: UIInputViewController {
         }
     }
     
-    func readFile(){
+    /**
+     read word list from file
+    */
+    private func readFile(){
         if let path = Bundle.main.path(forResource: "words", ofType: "txt") {
             do {
                 let data = try String(contentsOfFile: path, encoding: .utf8)
@@ -379,5 +430,5 @@ class KeyboardViewController: UIInputViewController {
             }
         }
     }
-    private var dictionary: Array<String> = []
+    
 }
