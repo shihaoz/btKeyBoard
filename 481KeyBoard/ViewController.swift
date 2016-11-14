@@ -14,13 +14,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        var textField = UITextField(frame: CGRect(x: 5, y: 5, width: 300, height: 300) )
-        textField.text = "Hello World"
-        textField.textAlignment = NSTextAlignment.center
-        textField.textColor = UIColor.white
-        textField.backgroundColor = UIColor.lightGray
-        self.view.addSubview(textField)
-        
     }
 
     override func didReceiveMemoryWarning() {

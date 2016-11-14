@@ -9,8 +9,23 @@
 import UIKit
 
 class KeyboardViewController: UIInputViewController {
-
-
+    /**
+ 
+ 
+ let screenWidth = UIScreen.main.bounds.width
+ var x = CGFloat(5), y = CGFloat(5)
+ let buttonWidth = CGFloat((screenWidth-40-20)/3), buttonHeight = CGFloat(30), gap = CGFloat(10)
+ */
+    private struct keyBoardLayOut{
+        static let spaceBetweenRow = CGFloat(10)   // vertical space between different row
+        static let rowHeight = CGFloat(30)         // height of a row
+        static let rowSpacing = CGFloat(5)         // spacing within a row
+        
+        static let screenWidth: CGFloat = UIScreen.main.bounds.width
+    }
+    
+    @IBOutlet weak var completeRowStack: UIStackView!
+    var forthRowStack: UIStackView? = nil
     override func updateViewConstraints() {
         super.updateViewConstraints()
         
@@ -28,11 +43,6 @@ class KeyboardViewController: UIInputViewController {
         self.nextKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
         
         self.nextKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
-        
-        self.view.addSubview(self.nextKeyboardButton)
-        
-        self.nextKeyboardButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.nextKeyboardButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         
         /// load UI
         loadInterface()
@@ -62,6 +72,7 @@ class KeyboardViewController: UIInputViewController {
         layoutGrid.append(secondRow)
         layoutGrid.append(thirdRow)
         layoutGrid.append(forthRow)
+        
         for row in layoutGrid{  // round corner
             for button in row!{
                 button.layer.cornerRadius = 5
@@ -72,9 +83,31 @@ class KeyboardViewController: UIInputViewController {
             }
         }
         
+        let screenWidth = UIScreen.main.bounds.width
+        var x = CGFloat(5), y = CGFloat(5)
+        
+        completeRowStack.frame = CGRect(x: x, y: y, width: keyBoardLayOut.screenWidth-2*x, height: keyBoardLayOut.rowHeight)
+        completeRowStack.alignment = UIStackViewAlignment.fill
+        completeRowStack.distribution = UIStackViewDistribution.fillEqually
+        completeRowStack.spacing = keyBoardLayOut.rowSpacing
+        
+        x = CGFloat(0)
+        y += keyBoardLayOut.spaceBetweenRow
+        
+        forthRowStack = UIStackView(frame: CGRect(x: x, y: y, width: screenWidth-2*x, height: keyBoardLayOut.rowHeight ))
+        for button in forthRow{
+            forthRowStack?.addArrangedSubview(button)
+        }
+        forthRowStack!.alignment = UIStackViewAlignment.fill
+        forthRowStack!.distribution = UIStackViewDistribution.fillEqually
+        forthRowStack!.spacing = 5
+        view.addSubview(forthRowStack!)
+// setting style
+
         _updateSelect()
         readFile()
         suggestion.buildTree(words: dictionary)
+        
     }
     
     
@@ -120,6 +153,22 @@ class KeyboardViewController: UIInputViewController {
         _textChange()
     }
     
+    /**
+     insert suggested word
+    */
+    @IBAction func suggestPressed(sender: UIButton!){
+        var suggestWord = sender.currentTitle
+        var inputText = textDocumentProxy.documentContextBeforeInput
+        if suggestWord != nil && inputText != nil{
+            // remove latest word
+            var idx = inputText!.characters.count-1
+            while idx >= 0 && inputText?[(inputText?.index((inputText?.startIndex)!, offsetBy: idx))!] != " " {
+                idx -= 1
+                textDocumentProxy.deleteBackward()
+            }
+            textDocumentProxy.insertText(suggestWord! + " ")
+        }
+    }
     /**
      backspace is pressed
     */
@@ -184,7 +233,7 @@ class KeyboardViewController: UIInputViewController {
         let calculatorNib = UINib(nibName: "keyBoard", bundle: nil)
         // instantiate the view
         keyboardView = calculatorNib.instantiate(withOwner: self, options: nil)[0] as! UIView
-        
+        print(keyboardView.frame)
         // add the interface to the main view
         view.addSubview(keyboardView)
         
