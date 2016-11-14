@@ -101,6 +101,41 @@ class KeyboardViewController: UIInputViewController {
         forthRowStack!.spacing = 5
         view.addSubview(forthRowStack!)
 
+        x = CGFloat(0)
+        y += keyBoardLayOut.rowHeight + keyBoardLayOut.spaceBetweenRow
+        
+        thirdRowStack = UIStackView(frame: CGRect(x: x, y: y, width: screenWidth-2*x, height: keyBoardLayOut.rowHeight))
+        for button in thirdRow{
+            thirdRowStack?.addArrangedSubview(button)
+        }
+        thirdRowStack!.alignment = UIStackViewAlignment.fill
+        thirdRowStack!.distribution = UIStackViewDistribution.fillEqually
+        thirdRowStack!.spacing = 5
+        view.addSubview(thirdRowStack!)
+        
+        x = CGFloat(0)
+        y += keyBoardLayOut.rowHeight + keyBoardLayOut.spaceBetweenRow
+
+        secondRowStack = UIStackView(frame: CGRect(x: x, y: y, width: screenWidth-2*x, height: keyBoardLayOut.rowHeight))
+        for button in secondRow{
+            secondRowStack?.addArrangedSubview(button)
+        }
+        secondRowStack!.alignment = UIStackViewAlignment.fill
+        secondRowStack!.distribution = UIStackViewDistribution.fillEqually
+        secondRowStack!.spacing = 5
+        view.addSubview(secondRowStack!)
+        
+        x = CGFloat(0)
+        y += keyBoardLayOut.rowHeight + keyBoardLayOut.spaceBetweenRow
+        
+        firstRowStack = UIStackView(frame: CGRect(x: x, y: y, width: screenWidth-2*x, height: keyBoardLayOut.rowHeight))
+        for button in firstRow{
+            firstRowStack?.addArrangedSubview(button)
+        }
+        firstRowStack!.alignment = UIStackViewAlignment.fill
+        firstRowStack!.distribution = UIStackViewDistribution.fillEqually
+        firstRowStack!.spacing = 5
+        view.addSubview(firstRowStack!)
         
         
         _updateSelect(target: currentXY)
