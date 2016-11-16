@@ -17,7 +17,7 @@ class KeyboardViewController: UIInputViewController {
  let buttonWidth = CGFloat((screenWidth-40-20)/3), buttonHeight = CGFloat(30), gap = CGFloat(10)
  */
     private struct keyBoardLayOut{
-        static let spaceBetweenRow = CGFloat(10)   // vertical space between different row
+        static let spaceBetweenRow = CGFloat(5)   // vertical space between different row
         static let rowHeight = CGFloat(30)         // height of a row
         static let rowSpacing = CGFloat(5)         // spacing within a row
         static let screenWidth: CGFloat = UIScreen.main.bounds.width
@@ -95,6 +95,7 @@ class KeyboardViewController: UIInputViewController {
         completeRowStack.alignment = UIStackViewAlignment.fill
         completeRowStack.distribution = UIStackViewDistribution.fillEqually
         completeRowStack.spacing = keyBoardLayOut.rowSpacing
+        
         
         x = getLeadingTrailingSpace(numberElement: 10)
         y += keyBoardLayOut.rowHeight + keyBoardLayOut.spaceBetweenRow
