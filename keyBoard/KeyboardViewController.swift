@@ -143,15 +143,7 @@ class KeyboardViewController: UIInputViewController {
                 Float(keyBoardLayOut.screenWidth - keyBoardLayOut.rowSpacing * CGFloat(keyBoardLayOut.firstRowRatios.count)) * w))
         }
         setButtonsSize(x: x, y: y, width: widthArray, height: keyBoardLayOut.rowHeight, row: firstRow)
-//        firstRowStack = UIStackView(frame: CGRect(x: x, y: y, width: screenWidth-2*x, height: keyBoardLayOut.rowHeight))
-//        for button in firstRow{
-//            firstRowStack?.addArrangedSubview(button)
-//        }
-//        firstRowStack!.alignment = UIStackViewAlignment.fill
-//        firstRowStack!.distribution = UIStackViewDistribution.fill
-//        firstRowStack!.spacing = 5
-//        view.addSubview(firstRowStack!)
-//        
+
         
         _updateSelect(target: currentXY)
         readFile()
@@ -167,6 +159,8 @@ class KeyboardViewController: UIInputViewController {
         case Right
         case Up
         case Down
+        case Click
+        case BackSpace
     }
     
     private var keyboardView: UIView!
@@ -397,6 +391,8 @@ class KeyboardViewController: UIInputViewController {
     */
     private func _move(direction: Movement){
         var targetXY = currentXY
+        let senderButton = layoutGrid[currentXY.x]?[currentXY.y]
+        
         switch direction {
             /**
             x controls up/down, y controls left/right
@@ -456,7 +452,14 @@ class KeyboardViewController: UIInputViewController {
                     }
                 }
                 targetXY.x -= 1
-            default:
+            
+        case .Click:    // a click event
+            senderButton?.sendActions(for: .touchUpInside)
+            
+        case .BackSpace:    // backspace event
+            backSpacePress(sender: senderButton)
+            
+        default:
                 break
         }
         if  (targetXY.x < 0 || targetXY.x >= layoutGrid.count) {  // if out of bound
