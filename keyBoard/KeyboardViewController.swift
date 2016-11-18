@@ -10,27 +10,24 @@ import UIKit
 
 class KeyboardViewController: UIInputViewController {
     /**
- 
- 
- let screenWidth = UIScreen.main.bounds.width
- var x = CGFloat(5), y = CGFloat(5)
- let buttonWidth = CGFloat((screenWidth-40-20)/3), buttonHeight = CGFloat(30), gap = CGFloat(10)
- */
+     
+     */
     private struct keyBoardLayOut{
         static let spaceBetweenRow = CGFloat(5)   // vertical space between different row
-        static let rowHeight = CGFloat(30)         // height of a row
+        static var rowHeight = CGFloat(30)         // height of a row
         static let rowSpacing = CGFloat(5)         // spacing within a row
-        static let screenWidth: CGFloat = UIScreen.main.bounds.width
-        static var buttonWidth: CGFloat = (screenWidth - 9*rowSpacing)/10
+        static var buttonWidth = CGFloat(30)    // need to be recalculated
         
         static let firstRowRatios: Array<Float> = [
             0.2, 0.2, 0.4, 0.2
         ]
+        
+        static let screenKeyBoardRatioLandscape = 2.5   // @heuristic-value
+        static let screenKeyBoardRatioPortrait = 3.0
     }
     
     override func updateViewConstraints() {
         super.updateViewConstraints()
-        
         // Add custom view sizing constraints here
     }
     
@@ -46,9 +43,9 @@ class KeyboardViewController: UIInputViewController {
         
         self.nextKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
         
-        /// load UI
+        // load nib UI
         loadInterface()
-    
+        
         // add press event
         for button in forthRow{
             button.addTarget(self, action: #selector(self.keyPressed(sender:)), for: .touchUpInside)
@@ -86,12 +83,40 @@ class KeyboardViewController: UIInputViewController {
             }
         }
         
-        let screenWidth = UIScreen.main.bounds.width
-        print(screenWidth)
+        initLayout(screenKeyboardRatio: keyBoardLayOut.screenKeyBoardRatioPortrait)    // set size and layout
+        _updateSelect(target: currentXY)    // update selection
+        readFile()                          // load word file
+        suggestion.buildTree(words: dictionary) // build prediction tree
+        
+
+    }
+    /**
+     detect rotation, redraw layout
+    */
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        if fromInterfaceOrientation.isLandscape{    // landscape --> portrait
+            initLayout(screenKeyboardRatio: keyBoardLayOut.screenKeyBoardRatioPortrait )
+        }
+        else{                                       // portrait --> landscape
+            initLayout(screenKeyboardRatio: keyBoardLayOut.screenKeyBoardRatioLandscape )
+        }
+    }
+
+    @objc private func initLayout(screenKeyboardRatio: Double){
+        
+        let screenWidth: CGFloat = UIScreen.main.bounds.width
+        let screenHeight: CGFloat = UIScreen.main.bounds.height/CGFloat(screenKeyboardRatio)   // @fix:
+
+        print(screenWidth, screenHeight)
+        keyBoardLayOut.buttonWidth = (screenWidth - 9*keyBoardLayOut.rowSpacing)/10
+        
+        // set row height
+        keyBoardLayOut.rowHeight = (screenHeight - CGFloat(layoutGrid.count-1)*keyBoardLayOut.rowSpacing)/CGFloat(layoutGrid.count)
+        print("rowHeight: \(keyBoardLayOut.rowHeight)")
         
         var x = CGFloat(0), y = CGFloat(5)
         
-        completeRowStack.frame = CGRect(x: x, y: y, width: keyBoardLayOut.screenWidth-2*x, height: keyBoardLayOut.rowHeight)
+        completeRowStack.frame = CGRect(x: x, y: y, width: screenWidth-2*x, height: keyBoardLayOut.rowHeight)
         completeRowStack.alignment = UIStackViewAlignment.fill
         completeRowStack.distribution = UIStackViewDistribution.fillEqually
         completeRowStack.spacing = keyBoardLayOut.rowSpacing
@@ -108,7 +133,7 @@ class KeyboardViewController: UIInputViewController {
         forthRowStack!.distribution = UIStackViewDistribution.fillEqually
         forthRowStack!.spacing = 5
         view.addSubview(forthRowStack!)
-
+        
         x = getLeadingTrailingSpace(numberElement: thirdRow.count)
         y += keyBoardLayOut.rowHeight + keyBoardLayOut.spaceBetweenRow
         
@@ -123,7 +148,7 @@ class KeyboardViewController: UIInputViewController {
         
         x = getLeadingTrailingSpace(numberElement: secondRow.count)
         y += keyBoardLayOut.rowHeight + keyBoardLayOut.spaceBetweenRow
-
+        
         secondRowStack = UIStackView(frame: CGRect(x: x, y: y, width: screenWidth-2*x, height: keyBoardLayOut.rowHeight))
         for button in secondRow{
             secondRowStack?.addArrangedSubview(button)
@@ -140,16 +165,10 @@ class KeyboardViewController: UIInputViewController {
         var widthArray: Array<CGFloat> = []
         for w in keyBoardLayOut.firstRowRatios{
             widthArray.append(CGFloat(
-                Float(keyBoardLayOut.screenWidth - keyBoardLayOut.rowSpacing * CGFloat(keyBoardLayOut.firstRowRatios.count)) * w))
+                Float(screenWidth - keyBoardLayOut.rowSpacing * CGFloat(keyBoardLayOut.firstRowRatios.count)) * w))
         }
         setButtonsSize(x: x, y: y, width: widthArray, height: keyBoardLayOut.rowHeight, row: firstRow)
-
-        
-        _updateSelect(target: currentXY)
-        readFile()
-        suggestion.buildTree(words: dictionary)
     }
-    
     
 /*  =========>> private variables <<=========  */
     
@@ -296,7 +315,7 @@ class KeyboardViewController: UIInputViewController {
         get leading/trailing space
     */
     private func getLeadingTrailingSpace(numberElement: Int) -> CGFloat{
-        return (keyBoardLayOut.screenWidth
+        return (UIScreen.main.bounds.width
             - (CGFloat(numberElement) * keyBoardLayOut.buttonWidth)
             - (CGFloat((numberElement-1)) * keyBoardLayOut.rowSpacing))/2
     }
@@ -339,7 +358,7 @@ class KeyboardViewController: UIInputViewController {
         let calculatorNib = UINib(nibName: "keyBoard", bundle: nil)
         // instantiate the view
         keyboardView = calculatorNib.instantiate(withOwner: self, options: nil)[0] as! UIView
-        print(keyboardView.frame)
+        
         // add the interface to the main view
         view.addSubview(keyboardView)
         
@@ -515,7 +534,7 @@ class KeyboardViewController: UIInputViewController {
                 list = suggestion.getSuggestion(target: targetWord)
             }
         }
-        print(list)
+        print("recommendation: \(list)")
         for i in 0..<list.count{
             completeRow[i].setTitle(list[i], for: UIControlState.normal)
         }
