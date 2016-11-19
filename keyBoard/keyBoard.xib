@@ -180,8 +180,8 @@
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="56N-z7-dai">
                     <rect key="frame" x="1" y="146" width="32" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <state key="normal" backgroundImage="toUpperCase">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
@@ -409,7 +409,7 @@
         </view>
     </objects>
     <resources>
-        <image name="backSpace" width="82" height="90"/>
-        <image name="toUpperCase" width="48" height="51"/>
+        <image name="backSpace" width="38" height="37"/>
+        <image name="toUpperCase" width="39" height="39"/>
     </resources>
 </document>

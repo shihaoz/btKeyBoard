@@ -22,8 +22,8 @@ class KeyboardViewController: UIInputViewController {
             0.2, 0.2, 0.4, 0.2
         ]
         
-        static let screenKeyBoardRatioLandscape = 2.5   // @heuristic-value
-        static let screenKeyBoardRatioPortrait = 3.0
+        static let screenKeyBoardRatioLandscape = 2.2   // @heuristic-value for iphone6s/7
+        static let screenKeyBoardRatioPortrait = 2.8    // @heuristic-value for iphone6s/7
     }
     
     override func updateViewConstraints() {
@@ -102,6 +102,13 @@ class KeyboardViewController: UIInputViewController {
         }
     }
 
+    /**
+     initialize the layout for keyboard
+     including:
+     1. setting size, 
+     2. embed in stack view
+     2. define leading/trailing spaces
+    */
     @objc private func initLayout(screenKeyboardRatio: Double){
         
         let screenWidth: CGFloat = UIScreen.main.bounds.width
@@ -267,9 +274,18 @@ class KeyboardViewController: UIInputViewController {
     }
     /**
      case key is pressed
+     flip the _isUpper, and convert case
     */
     @IBAction func caseKeyPressed(sender: UIButton!){
-        // flip the boolean, and convert case
+        /// convert image
+        var image: UIImage = sender.backgroundImage(for: .normal)!
+        if isUpper{
+            image = UIImage(named: "toLowerCase")!
+        }
+        else{
+            image = UIImage(named: "toUpperCase")!
+        }
+        sender.setBackgroundImage(image, for: UIControlState.normal)
         isUpper = !isUpper
         convertCase(toUpper: isUpper)
         selectButton(button: sender)
