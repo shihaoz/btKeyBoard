@@ -56,7 +56,7 @@ class KeyboardViewController: UIInputViewController {
         }
         // add press event, but not for caseKey [0] and backSpace [-1]
         for idx in 1..<secondRow.count-1{
-            var button = secondRow[idx]
+            let button = secondRow[idx]
             button.addTarget(self, action: #selector(self.keyPressed(sender:)), for: .touchUpInside)
         }
         
@@ -82,13 +82,13 @@ class KeyboardViewController: UIInputViewController {
                 button.layer.shadowRadius = 0.0;
             }
         }
-        
+        /**
+         @performance: optimize below
+        */
         initLayout(screenKeyboardRatio: keyBoardLayOut.screenKeyBoardRatioPortrait)    // set size and layout
         _updateSelect(target: currentXY)    // update selection
         readFile()                          // load word file
         suggestion.buildTree(words: dictionary) // build prediction tree
-        
-
     }
     /**
      detect rotation, redraw layout
@@ -243,7 +243,7 @@ class KeyboardViewController: UIInputViewController {
      insert suggested word
     */
     @IBAction func suggestPressed(sender: UIButton!){
-        var suggestWord = sender.currentTitle
+        let suggestWord = sender.currentTitle
         var inputText = textDocumentProxy.documentContextBeforeInput
         if suggestWord != nil && inputText != nil{
             // remove latest word
@@ -397,7 +397,7 @@ class KeyboardViewController: UIInputViewController {
                 button.setTitle(button.currentTitle!.uppercased(), for: UIControlState.normal)
             }
             for idx in 1..<secondRow.count-1{
-                var button = secondRow[idx]
+                let button = secondRow[idx]
                 button.setTitle(button.currentTitle!.uppercased(), for: UIControlState.normal)
             }
         }
@@ -409,7 +409,7 @@ class KeyboardViewController: UIInputViewController {
                 button.setTitle(button.currentTitle!.lowercased(), for: UIControlState.normal)
             }
             for idx in 1..<secondRow.count-1{
-                var button = secondRow[idx]
+                let button = secondRow[idx]
                 button.setTitle(button.currentTitle!.lowercased(), for: UIControlState.normal)
             }
         }
@@ -494,8 +494,6 @@ class KeyboardViewController: UIInputViewController {
         case .BackSpace:    // backspace event
             backSpacePress(sender: senderButton)
             
-        default:
-                break
         }
         if  (targetXY.x < 0 || targetXY.x >= layoutGrid.count) {  // if out of bound
             // stays the same, Do-not-wrap
