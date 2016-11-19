@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "keyBoard/KeyboardViewController.swift"
-            timestampString = "501269268.671723"
+            timestampString = "501270095.197646"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "538"
-            endingLineNumber = "538"
+            startingLineNumber = "556"
+            endingLineNumber = "556"
             landmarkName = "_textChange()"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "keyBoard/KeyboardViewController.swift"
-            timestampString = "501269268.671723"
+            timestampString = "501270095.197646"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "547"
-            endingLineNumber = "547"
+            startingLineNumber = "565"
+            endingLineNumber = "565"
             landmarkName = "_textChange()"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "keyBoard/KeyboardViewController.swift"
-            timestampString = "501269268.671723"
+            timestampString = "501270095.197646"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "550"
-            endingLineNumber = "550"
+            startingLineNumber = "568"
+            endingLineNumber = "568"
             landmarkName = "_textChange()"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "keyBoard/KeyboardViewController.swift"
-            timestampString = "501263133.669964"
+            timestampString = "501270095.197646"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "257"
-            endingLineNumber = "257"
+            startingLineNumber = "274"
+            endingLineNumber = "274"
             landmarkName = "suggestPressed(sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "keyBoard/KeyboardViewController.swift"
-            timestampString = "501263730.621334"
+            timestampString = "501270095.197646"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "324"
-            endingLineNumber = "324"
+            startingLineNumber = "342"
+            endingLineNumber = "342"
             landmarkName = "setButtonsSize(x:y:width:height:row:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "keyBoard/KeyboardViewController.swift"
-            timestampString = "501263133.669964"
+            timestampString = "501270095.197646"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "initLayout(screenKeyboardRatio:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "keyBoard/KeyboardViewController.swift"
-            timestampString = "501263133.669964"
+            timestampString = "501270095.197646"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "initLayout(screenKeyboardRatio:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "keyBoard/KeyboardViewController.swift"
-            timestampString = "501263133.669964"
+            timestampString = "501270095.197646"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
             landmarkName = "initLayout(screenKeyboardRatio:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "keyBoard/KeyboardViewController.swift"
-            timestampString = "501263730.621334"
+            timestampString = "501270095.197646"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "334"
-            endingLineNumber = "334"
+            startingLineNumber = "352"
+            endingLineNumber = "352"
             landmarkName = "getLeadingTrailingSpace(numberElement:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "keyBoard/KeyboardViewController.swift"
-            timestampString = "501263133.669964"
+            timestampString = "501270095.197646"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
             landmarkName = "initLayout(screenKeyboardRatio:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "keyBoard/KeyboardViewController.swift"
-            timestampString = "501263133.669964"
+            timestampString = "501270095.197646"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "initLayout(screenKeyboardRatio:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "keyBoard/KeyboardViewController.swift"
-            timestampString = "501264024.612801"
+            timestampString = "501270095.197646"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "281"
-            endingLineNumber = "281"
+            startingLineNumber = "298"
+            endingLineNumber = "298"
             landmarkName = "caseKeyPressed(sender:)"
             landmarkType = "7">
          </BreakpointContent>

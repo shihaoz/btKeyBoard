@@ -96,10 +96,27 @@ class KeyboardViewController: UIInputViewController {
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         if fromInterfaceOrientation.isLandscape{    // landscape --> portrait
             initLayout(screenKeyboardRatio: keyBoardLayOut.screenKeyBoardRatioPortrait )
+            
+            backSpaceKey.setBackgroundImage( UIImage(named: "backspacePortrait"), for: .normal)
+            if isUpper {
+                caseKey.setBackgroundImage( UIImage(named: "UpperCasePortrait") , for: .normal)
+            }
+            else{
+                caseKey.setBackgroundImage( UIImage(named: "LowerCasePortrait") , for: .normal)
+            }
         }
         else{                                       // portrait --> landscape
             initLayout(screenKeyboardRatio: keyBoardLayOut.screenKeyBoardRatioLandscape )
+            
+            backSpaceKey.setBackgroundImage( UIImage(named: "backspaceLandScape"), for: .normal)
+            if isUpper {
+                caseKey.setBackgroundImage( UIImage(named: "UpperCaseLandScape") , for: .normal)
+            }
+            else{
+                caseKey.setBackgroundImage( UIImage(named: "LowerCaseLandScape") , for: .normal)
+            }
         }
+        isPortrait = !isPortrait
     }
 
     /**
@@ -195,7 +212,7 @@ class KeyboardViewController: UIInputViewController {
     private var layoutGrid = Array<Array<UIButton>?>()
     private var suggestion = prefixTree()
     private var dictionary: Array<String> = []
-    
+    private var isPortrait = true
     
     var forthRowStack: UIStackView? = nil
     var thirdRowStack: UIStackView? = nil
@@ -279,11 +296,12 @@ class KeyboardViewController: UIInputViewController {
     @IBAction func caseKeyPressed(sender: UIButton!){
         /// convert image
         var image: UIImage = sender.backgroundImage(for: .normal)!
+        let postFix: String = isPortrait ? "Portrait" : "LandScape"
         if isUpper{
-            image = UIImage(named: "toLowerCase")!
+            image = UIImage(named: "LowerCase\(postFix)")!
         }
         else{
-            image = UIImage(named: "toUpperCase")!
+            image = UIImage(named: "UpperCase\(postFix)")!
         }
         sender.setBackgroundImage(image, for: UIControlState.normal)
         isUpper = !isUpper
