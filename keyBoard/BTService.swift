@@ -162,26 +162,33 @@ class BTService: NSObject, CBPeripheralDelegate {
         
         if (characteristic.value?[0] == 3) {
             print("LEFT")
+            keyBoardControl?.btSignal(move: .Left)
         }
         
         else if (characteristic.value?[0] == 4) {
             print("RIGHT")
+            keyBoardControl?.btSignal(move: .Right)
         }
         
         else if (characteristic.value?[0] == 5) {
             print("UP")
+            keyBoardControl?.btSignal(move: .Up)
         }
         
         else if (characteristic.value?[0] == 6) {
             print("DOWN")
+            keyBoardControl?.btSignal(move: .Down)
         }
         
         else if (characteristic.value?[0] == 1) {
             print("CLICK")
+            keyBoardControl?.btSignal(move: .Click)
         }
         
         else if (characteristic.value?[0] == 2) {
             print("DOULBE CLICK")
+            
+            // ??
         }
         
     }

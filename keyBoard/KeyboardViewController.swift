@@ -329,7 +329,9 @@ class KeyboardViewController: UIInputViewController {
                 break
         }
     }
-    
+    func btSignal(move: Movement){
+        _move(direction: move)
+    }
 /*  =========>> Utility Function <<=========  */
     
     private func setButtonsSize(x: CGFloat, y: CGFloat, width: Array<CGFloat>, height: CGFloat, row: Array<UIButton>){
