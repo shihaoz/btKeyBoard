@@ -89,6 +89,9 @@ class KeyboardViewController: UIInputViewController {
         _updateSelect(target: currentXY)    // update selection
         readFile()                          // load word file
         suggestion.buildTree(words: dictionary) // build prediction tree
+        
+        // initialize bluetooth
+        btManager = BTDiscovery(kbControl: self)
     }
     /**
      detect rotation, redraw layout
@@ -213,6 +216,7 @@ class KeyboardViewController: UIInputViewController {
     private var suggestion = prefixTree()
     private var dictionary: Array<String> = []
     private var isPortrait = true
+    private var btManager: BTDiscovery?
     
     var forthRowStack: UIStackView? = nil
     var thirdRowStack: UIStackView? = nil

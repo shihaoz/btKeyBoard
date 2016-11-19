@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D4A91BC1DE0C9CD006E62B9 /* BTDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4A91BA1DE0C9CD006E62B9 /* BTDiscovery.swift */; };
+		5D4A91BD1DE0C9CD006E62B9 /* BTService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4A91BB1DE0C9CD006E62B9 /* BTService.swift */; };
 		5D60D2221DD13DE700008A4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF4F3171DD0F12A00ACD581 /* AppDelegate.swift */; };
 		5D60D2231DD13DED00008A4E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF4F3191DD0F12A00ACD581 /* ViewController.swift */; };
 		5D8C52111DD8281C00CDF520 /* words.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5D8C52101DD8281C00CDF520 /* words.txt */; };
@@ -55,6 +57,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5D4A91BA1DE0C9CD006E62B9 /* BTDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTDiscovery.swift; sourceTree = "<group>"; };
+		5D4A91BB1DE0C9CD006E62B9 /* BTService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTService.swift; sourceTree = "<group>"; };
 		5D8C52101DD8281C00CDF520 /* words.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = words.txt; sourceTree = "<group>"; };
 		5DC998261DD7B2BC0064A9AE /* prefixTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = prefixTree.swift; sourceTree = "<group>"; };
 		5DF4F3141DD0F12A00ACD581 /* 481KeyBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 481KeyBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,6 +102,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5D4A91B91DE0C9A3006E62B9 /* blueTooth */ = {
+			isa = PBXGroup;
+			children = (
+				5D4A91BA1DE0C9CD006E62B9 /* BTDiscovery.swift */,
+				5D4A91BB1DE0C9CD006E62B9 /* BTService.swift */,
+			);
+			name = blueTooth;
+			sourceTree = "<group>";
+		};
 		5DF4F30B1DD0F12A00ACD581 = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +156,7 @@
 		5DF4F33C1DD0F23500ACD581 /* keyBoard */ = {
 			isa = PBXGroup;
 			children = (
+				5D4A91B91DE0C9A3006E62B9 /* blueTooth */,
 				5D8C52101DD8281C00CDF520 /* words.txt */,
 				5DC998261DD7B2BC0064A9AE /* prefixTree.swift */,
 				5DF4F33D1DD0F23500ACD581 /* KeyboardViewController.swift */,
@@ -309,7 +323,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D60D2231DD13DED00008A4E /* ViewController.swift in Sources */,
+				5D4A91BC1DE0C9CD006E62B9 /* BTDiscovery.swift in Sources */,
 				5DC998271DD7B2BC0064A9AE /* prefixTree.swift in Sources */,
+				5D4A91BD1DE0C9CD006E62B9 /* BTService.swift in Sources */,
 				5D60D2221DD13DE700008A4E /* AppDelegate.swift in Sources */,
 				5DF4F33E1DD0F23500ACD581 /* KeyboardViewController.swift in Sources */,
 			);
