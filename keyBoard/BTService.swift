@@ -187,7 +187,7 @@ class BTService: NSObject, CBPeripheralDelegate {
         
         else if (characteristic.value?[0] == 2) {
             print("DOULBE CLICK")
-            
+            keyBoardControl?.btSignal(move: .BackSpace)
             // ??
         }
         

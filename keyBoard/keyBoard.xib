@@ -96,6 +96,9 @@
                     <state key="normal" title="123">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="donothingWithSender:" destination="-1" eventType="touchUpInside" id="SbJ-Se-zJF"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S0f-M8-vnU">
                     <rect key="frame" x="1" y="68" width="30" height="30"/>

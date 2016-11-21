@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Dispatch
 class KeyboardViewController: UIInputViewController {
     /**
      
@@ -93,7 +93,7 @@ class KeyboardViewController: UIInputViewController {
         
         // initialize bluetooth
         btManager = BTDiscovery(kbControl: self)
-        
+
     }
     /**
      detect rotation, redraw layout
@@ -314,7 +314,9 @@ class KeyboardViewController: UIInputViewController {
         convertCase(toUpper: isUpper)
         selectButton(button: sender)
     }
-    
+    @IBAction func donothing(sender: UIButton!){
+        // do nothing
+    }
     
     /** mocking bluetooth signal */
     @IBAction func btMove(sender: UIButton!){
@@ -515,7 +517,12 @@ class KeyboardViewController: UIInputViewController {
                 targetXY.x -= 1
             
         case .Click:    // a click event
-            senderButton?.sendActions(for: .touchUpInside)
+            DispatchQueue.global(qos: .userInitiated).async {
+                // Bounce back to the main thread to update the UI
+                DispatchQueue.main.async {
+                    senderButton?.sendActions(for: .touchUpInside)
+                }
+            }
             
         case .BackSpace:    // backspace event
             backSpacePress(sender: senderButton)
@@ -534,10 +541,22 @@ class KeyboardViewController: UIInputViewController {
                 targetXY.y = (layoutGrid[targetXY.x]?.count)! - 1
             }
             // remove the selection on last one
-            _updateSelect(target: targetXY)
+            DispatchQueue.global(qos: .userInitiated).async {
+                // Bounce back to the main thread to update the UI
+                DispatchQueue.main.async {
+                    self.layoutGrid[self.currentXY.x]![self.currentXY.y].layer.borderWidth = 0.0
+                    self.layoutGrid[targetXY.x]![targetXY.y].layer.borderWidth = 2.0
+                    self.layoutGrid[targetXY.x]![targetXY.y].layer.borderColor = UIColor.blue.cgColor
+                    self.currentXY = targetXY
+                }
+            }
         }
+        
+        
     }
+    
 
+    
     /**
      @input: new valid coordinate
      @effect:
@@ -575,11 +594,16 @@ class KeyboardViewController: UIInputViewController {
             }
         }
         print("recommendation: \(list)")
-        for i in 0..<list.count{
-            completeRow[i].setTitle(list[i], for: UIControlState.normal)
-        }
-        for i in list.count..<completeRow.count{
-            completeRow[i].setTitle(" ", for: UIControlState.normal)
+        DispatchQueue.global(qos: .userInitiated).async {
+            // Bounce back to the main thread to update the UI
+            DispatchQueue.main.async {
+                for i in 0..<list.count{
+                    self.completeRow[i].setTitle(list[i], for: UIControlState.normal)
+                }
+                for i in list.count..<self.completeRow.count{
+                    self.completeRow[i].setTitle(" ", for: UIControlState.normal)
+                }
+            }
         }
     }
     
