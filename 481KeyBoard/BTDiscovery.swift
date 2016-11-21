@@ -111,11 +111,13 @@ class BTDiscovery: NSObject, CBCentralManagerDelegate {
         print("centralManagerDidUpdateState")
         switch (central.state) {
         case .poweredOff:
-            print("power off")
+            print("centralManagerDidUpdateState")
+
             self.clearDevices()
             
         case .unauthorized:
             print("unauthorized")
+
             // Indicate to user that the iOS device does not support BLE.
             break
             

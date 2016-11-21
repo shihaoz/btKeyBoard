@@ -34,6 +34,7 @@ class KeyboardViewController: UIInputViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         // Perform custom UI setup here
         self.nextKeyboardButton = UIButton(type: .system)
         
@@ -92,6 +93,7 @@ class KeyboardViewController: UIInputViewController {
         
         // initialize bluetooth
         btManager = BTDiscovery(kbControl: self)
+        
     }
     /**
      detect rotation, redraw layout
