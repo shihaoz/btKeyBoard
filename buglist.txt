@@ -1,0 +1,14 @@
+
+Bug-fix: 
+* number key breaks ✔︎ 
+* erase last selection ✔︎ 
+* next button breaks  ✔︎ 
+* next button then UIThread breaks
+* non-symbolic key pressed event ✔︎ (number-key does nothing, case key works, backspace works)
+
+
+completion row bug
+1. remove whitespace and add word, 1st completion spot is missing
+2. completion should always show the word it holds
+
+
