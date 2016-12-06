@@ -19,15 +19,19 @@ class BTDiscovery: NSObject, CBCentralManagerDelegate {
     fileprivate var peripheralBLE: CBPeripheral?
     
     var keyBoardControl : KeyboardViewController?
-    init(kbControl: KeyboardViewController) {
+    init(kbControl: KeyboardViewController?) {
         super.init()
-
-        print("start to discover")
-        
+        keyBoardControl = kbControl
         let centralQueue = DispatchQueue(label: "com.raywenderlich", attributes: [])
         centralManager = CBCentralManager(delegate: self, queue: centralQueue)
         
+    }
+    public func boot(kbControl: KeyboardViewController){
+        print("start to discover")
         keyBoardControl = kbControl
+        if self.bleService != nil{
+            self.bleService?.boot(kbControl: kbControl);
+        }
     }
     
     func startScanning() {
@@ -79,7 +83,7 @@ class BTDiscovery: NSObject, CBCentralManagerDelegate {
         
         // Create new service class
         if (peripheral == self.peripheralBLE) {
-            self.bleService = BTService(initWithPeripheral: peripheral, kbControl: keyBoardControl!)
+            self.bleService = BTService(initWithPeripheral: peripheral, kbControl: keyBoardControl)
         }
         
         // Stop scanning for new devices

@@ -25,7 +25,7 @@ class BTService: NSObject, CBPeripheralDelegate {
     var peripheral: CBPeripheral?
     var positionCharacteristic: CBCharacteristic?
     var keyBoardControl: KeyboardViewController?
-    init(initWithPeripheral peripheral: CBPeripheral, kbControl: KeyboardViewController) {
+    init(initWithPeripheral peripheral: CBPeripheral, kbControl: KeyboardViewController?) {
         super.init()
         
         print("start to service")
@@ -34,7 +34,9 @@ class BTService: NSObject, CBPeripheralDelegate {
         self.peripheral?.delegate = self
         keyBoardControl = kbControl
     }
-    
+    func boot(kbControl: KeyboardViewController) ->  Void{
+        keyBoardControl = kbControl
+    }
     deinit {
         self.reset()
     }
@@ -162,33 +164,44 @@ class BTService: NSObject, CBPeripheralDelegate {
         
         if (characteristic.value?[0] == 3) {
             print("LEFT")
-            keyBoardControl?.btSignal(move: .Left)
+            if keyBoardControl != nil{
+                keyBoardControl?.btSignal(move: .Left)
+            }
         }
         
         else if (characteristic.value?[0] == 4) {
             print("RIGHT")
-            keyBoardControl?.btSignal(move: .Right)
+            if keyBoardControl != nil{
+                keyBoardControl?.btSignal(move: .Right)
+            }
         }
         
         else if (characteristic.value?[0] == 5) {
             print("UP")
-            keyBoardControl?.btSignal(move: .Up)
+            if keyBoardControl != nil{
+                keyBoardControl?.btSignal(move: .Up)
+            }
         }
         
         else if (characteristic.value?[0] == 6) {
             print("DOWN")
-            keyBoardControl?.btSignal(move: .Down)
+            if keyBoardControl != nil{
+                keyBoardControl?.btSignal(move: .Down)
+            }
         }
         
         else if (characteristic.value?[0] == 1) {
             print("CLICK")
-            keyBoardControl?.btSignal(move: .Click)
+            if keyBoardControl != nil{
+                keyBoardControl?.btSignal(move: .Click)
+            }
         }
         
         else if (characteristic.value?[0] == 2) {
             print("DOULBE CLICK")
-            keyBoardControl?.btSignal(move: .BackSpace)
-            // ??
+            if keyBoardControl != nil{
+                keyBoardControl?.btSignal(move: .BackSpace)
+            }
         }
         
     }

@@ -8,6 +8,10 @@
 
 import UIKit
 import Dispatch
+
+// initialize bluetooth
+var btManager = BTDiscovery(kbControl: nil)
+
 class KeyboardViewController: UIInputViewController {
     /**
      
@@ -91,10 +95,13 @@ class KeyboardViewController: UIInputViewController {
         readFile()                          // load word file
         suggestion.buildTree(words: dictionary) // build prediction tree
         
-        // initialize bluetooth
-        btManager = BTDiscovery(kbControl: self)
-
+        
+        btManager.boot(kbControl: self)
     }
+    deinit {
+        print("--------> destructing  <--------")
+    }
+    
     /**
      detect rotation, redraw layout
     */
@@ -218,7 +225,7 @@ class KeyboardViewController: UIInputViewController {
     private var suggestion = prefixTree()
     private var dictionary: Array<String> = []
     private var isPortrait = true
-    private var btManager: BTDiscovery?
+
     
     var forthRowStack: UIStackView? = nil
     var thirdRowStack: UIStackView? = nil
