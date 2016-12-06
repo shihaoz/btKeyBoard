@@ -591,6 +591,15 @@ class KeyboardViewController: UIInputViewController {
             else{
                 targetWord = targetWord.components(separatedBy: " ").last!   // complete on last word
                 list = suggestion.getSuggestion(target: targetWord)
+                let firstChar = targetWord.substring(to: targetWord.index(targetWord.startIndex, offsetBy: 1))
+                let firstCharLower = firstChar.lowercased()
+                if firstCharLower != firstChar {
+                    // capitalize each word
+                    for i in 0..<list.count{
+                        list[i] = firstChar + list[i].substring(from: targetWord.index(targetWord.startIndex, offsetBy: 1));
+                    }
+                }
+                
             }
         }
         print("recommendation: \(list)")
