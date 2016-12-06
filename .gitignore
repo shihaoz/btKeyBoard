@@ -1,0 +1,7 @@
+# Swift project 481keyboard
+# ignore main UI folder
+# ignore Test folder
+# only commit extension folder
+481KeyBoard/
+481KeyBoardTests/
+481KeyBoard.xcodeproj/
