@@ -271,9 +271,10 @@ class KeyboardViewController: UIInputViewController {
         if suggestWord != nil && suggestWord != " " && inputText != nil{
             // remove latest word
             var idx = inputText!.characters.count-1
-            while idx >= 0 && inputText?[(inputText?.index((inputText?.startIndex)!, offsetBy: idx))!] != " " {
-                idx -= 1
-                textDocumentProxy.deleteBackward()
+            while idx >= 0 && inputText?[(inputText?.index((inputText?.startIndex)!, offsetBy: idx))!] != " "
+                && inputText?[(inputText?.index((inputText?.startIndex)!, offsetBy: idx))!] != "\n"{
+                    idx -= 1
+                    textDocumentProxy.deleteBackward()
             }
             textDocumentProxy.insertText(suggestWord! + " ")
         }
