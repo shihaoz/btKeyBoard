@@ -9,7 +9,7 @@
 import UIKit
 import Dispatch
 
-// initialize bluetooth
+// initialize a global bluetooth manager (avoid GC loop dependency bug)
 var btManager = BTDiscovery(kbControl: nil)
 
 class KeyboardViewController: UIInputViewController {
