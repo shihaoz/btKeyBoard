@@ -9,6 +9,112 @@
 import UIKit
 import Dispatch
 
+
+public enum Model : String {
+    case simulator = "simulator/sandbox",
+    iPod1          = "iPod 1",
+    iPod2          = "iPod 2",
+    iPod3          = "iPod 3",
+    iPod4          = "iPod 4",
+    iPod5          = "iPod 5",
+    iPad2          = "iPad 2",
+    iPad3          = "iPad 3",
+    iPad4          = "iPad 4",
+    iPhone4        = "iPhone 4",
+    iPhone4S       = "iPhone 4S",
+    iPhone5        = "iPhone 5",
+    iPhone5S       = "iPhone 5S",
+    iPhone5C       = "iPhone 5C",
+    iPadMini1      = "iPad Mini 1",
+    iPadMini2      = "iPad Mini 2",
+    iPadMini3      = "iPad Mini 3",
+    iPadAir1       = "iPad Air 1",
+    iPadAir2       = "iPad Air 2",
+    iPhone6        = "iPhone 6",
+    iPhone6plus    = "iPhone 6 Plus",
+    iPhone6S       = "iPhone 6S",
+    iPhone6Splus   = "iPhone 6S Plus",
+    iPhone7        = "iPhone 7",
+    iPhone7plus    = "iPhone 7 Plus",
+    unrecognized   = "?unrecognized?"
+}
+
+public extension UIDevice {
+    public var type: Model {
+        var systemInfo = utsname()
+        uname(&systemInfo)
+        let modelCode = withUnsafePointer(to: &systemInfo.machine) {
+            $0.withMemoryRebound(to: CChar.self, capacity: 1) {
+                ptr in String.init(validatingUTF8: ptr)
+                
+            }
+        }
+        var modelMap : [ String : Model ] = [
+            "i386"      : .simulator,
+            "x86_64"    : .simulator,
+            "iPod1,1"   : .iPod1,
+            "iPod2,1"   : .iPod2,
+            "iPod3,1"   : .iPod3,
+            "iPod4,1"   : .iPod4,
+            "iPod5,1"   : .iPod5,
+            "iPad2,1"   : .iPad2,
+            "iPad2,2"   : .iPad2,
+            "iPad2,3"   : .iPad2,
+            "iPad2,4"   : .iPad2,
+            "iPad2,5"   : .iPadMini1,
+            "iPad2,6"   : .iPadMini1,
+            "iPad2,7"   : .iPadMini1,
+            "iPhone3,1" : .iPhone4,
+            "iPhone3,2" : .iPhone4,
+            "iPhone3,3" : .iPhone4,
+            "iPhone4,1" : .iPhone4S,
+            "iPhone5,1" : .iPhone5,
+            "iPhone5,2" : .iPhone5,
+            "iPhone5,3" : .iPhone5C,
+            "iPhone5,4" : .iPhone5C,
+            "iPad3,1"   : .iPad3,
+            "iPad3,2"   : .iPad3,
+            "iPad3,3"   : .iPad3,
+            "iPad3,4"   : .iPad4,
+            "iPad3,5"   : .iPad4,
+            "iPad3,6"   : .iPad4,
+            "iPhone6,1" : .iPhone5S,
+            "iPhone6,2" : .iPhone5S,
+            "iPad4,1"   : .iPadAir1,
+            "iPad4,2"   : .iPadAir2,
+            "iPad4,4"   : .iPadMini2,
+            "iPad4,5"   : .iPadMini2,
+            "iPad4,6"   : .iPadMini2,
+            "iPad4,7"   : .iPadMini3,
+            "iPad4,8"   : .iPadMini3,
+            "iPad4,9"   : .iPadMini3,
+            "iPhone7,1" : .iPhone6plus,
+            "iPhone7,2" : .iPhone6,
+            "iPhone8,1" : .iPhone6S,
+            "iPhone8,2" : .iPhone6Splus,
+            "iPhone9,1" : .iPhone7,
+            "iPhone9,3" : .iPhone7,
+            "iPhone9,2" : .iPhone7plus,
+            "iPhone9,4" : .iPhone7plus
+        ]
+        
+        if let model = modelMap[String.init(modelCode!)!] {
+            return model
+        }
+        return Model.unrecognized
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 // initialize a global bluetooth manager (avoid GC loop dependency bug)
 var btManager = BTDiscovery(kbControl: nil)
 
@@ -26,8 +132,8 @@ class KeyboardViewController: UIInputViewController {
             0.2, 0.2, 0.4, 0.2
         ]
         
-        static let screenKeyBoardRatioLandscape = 2.2   // @heuristic-value for iphone6s/7
-        static let screenKeyBoardRatioPortrait = 2.8    // @heuristic-value for iphone6s/7
+        static var screenKeyBoardRatioLandscape = 2.2  // @heuristic-value for iphone6s/7
+        static var screenKeyBoardRatioPortrait = 2.8    // @heuristic-value for iphone6s/7
     }
     
     override func updateViewConstraints() {
@@ -37,6 +143,52 @@ class KeyboardViewController: UIInputViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if UIDevice().type == .simulator {
+            print("You're running on the simulator... boring!")
+            keyBoardLayOut.screenKeyBoardRatioLandscape = 2.5
+            keyBoardLayOut.screenKeyBoardRatioPortrait = 3.2
+            
+        } else {
+            if (UIDevice().type == .iPhone7plus){
+            }
+            else if(UIDevice().type == .iPhone7){
+                keyBoardLayOut.screenKeyBoardRatioLandscape = 2.5
+                keyBoardLayOut.screenKeyBoardRatioPortrait = 3.2
+            }
+            else if(UIDevice().type == .iPhone6Splus){
+            }
+            else if(UIDevice().type == .iPhone6S){
+//                keyBoardLayOut.screenKeyBoardRatioLandscape = 2.4
+//                keyBoardLayOut.screenKeyBoardRatioPortrait = 3.1
+                keyBoardLayOut.screenKeyBoardRatioLandscape = 2.2
+                keyBoardLayOut.screenKeyBoardRatioPortrait = 2.8
+            }
+            else if(UIDevice().type == .iPhone6plus){
+//                keyBoardLayOut.screenKeyBoardRatioLandscape = 2.6
+//                keyBoardLayOut.screenKeyBoardRatioPortrait = 3.2
+            }
+            else if(UIDevice().type == .iPhone6){
+//                keyBoardLayOut.screenKeyBoardRatioLandscape = 2.5
+//                keyBoardLayOut.screenKeyBoardRatioPortrait = 3.3
+            }
+            else if(UIDevice().type == .iPhone5S){
+            }
+            else if(UIDevice().type == .iPhone5){
+            }
+            else if(UIDevice().type == .iPhone5S){
+            }
+            print("Wow! Running on a \(UIDevice().type.rawValue)")
+        }
+        
+        
+//        print("start to set listener")
+//        
+//        
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
+//        
+//        print("done set listener")
+        
         
         
         // Perform custom UI setup here
@@ -422,6 +574,21 @@ class KeyboardViewController: UIInputViewController {
         nextKeyboardButton.addTarget(self, action: #selector(UIInputViewController.advanceToNextInputMode), for: .touchUpInside)
     }
     
+//    func keyboardWillShow(notification: NSNotification) {
+//        print("here------------------------------------------")
+//        
+//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+//            let keyboardHeight = keyboardSize.height
+//            print(keyboardHeight)
+//        }
+//    }
+
+    
+    
+    
+    
+    
+    
     /**
      convert symbolic keys to lowercase/uppercase
     */
@@ -638,5 +805,7 @@ class KeyboardViewController: UIInputViewController {
             }
         }
     }
+    
+    
     
 }
