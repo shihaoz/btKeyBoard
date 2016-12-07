@@ -171,6 +171,8 @@ class KeyboardViewController: UIInputViewController {
             else if(UIDevice().type == .iPhone6){
 //                keyBoardLayOut.screenKeyBoardRatioLandscape = 2.5
 //                keyBoardLayOut.screenKeyBoardRatioPortrait = 3.3
+                keyBoardLayOut.screenKeyBoardRatioLandscape = 2.2
+                keyBoardLayOut.screenKeyBoardRatioPortrait = 2.8
             }
             else if(UIDevice().type == .iPhone5S){
                 keyBoardLayOut.screenKeyBoardRatioLandscape = 2.2
