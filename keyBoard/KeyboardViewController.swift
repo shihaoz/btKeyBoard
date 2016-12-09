@@ -107,14 +107,6 @@ public extension UIDevice {
 
 
 
-
-
-
-
-
-
-
-
 // initialize a global bluetooth manager (avoid GC loop dependency bug)
 var btManager = BTDiscovery(kbControl: nil)
 
@@ -477,8 +469,26 @@ class KeyboardViewController: UIInputViewController {
         convertCase(toUpper: isUpper)
         selectButton(button: sender)
     }
-    @IBAction func donothing(sender: UIButton!){
-        // do nothing
+    
+    //for change to number
+    @IBAction func numberkey(sender: UIButton!){
+        //change all keys to number
+        for button in forthRow{
+            button.setTitle(button.currentTitle!.uppercased(), for: UIControlState.normal)
+        }
+        for button in thirdRow{
+            button.setTitle(button.currentTitle!.uppercased(), for: UIControlState.normal)
+        }
+        for idx in 1..<secondRow.count-1{
+            let button = secondRow[idx]
+            button.setTitle(button.currentTitle!.uppercased(), for: UIControlState.normal)
+        }
+        
+        
+        
+        
+        
+        
     }
     
     /** mocking bluetooth signal */
