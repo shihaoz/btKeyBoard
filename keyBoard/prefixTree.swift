@@ -41,6 +41,7 @@ public class prefixTree{
     private var nodeCount = 0
     private let suggestionCount = 3
     private let base: Int = 97      // base of offset
+    private var built = false;
     
     func insertWord(word: String) -> Void {
         
@@ -64,9 +65,13 @@ public class prefixTree{
             insertWord(word: wd.lowercased())
         }
         print("\(words.count) word built, \(nodeCount) nodes")
+        built = true;
     }
     
     func getSuggestion(target: String) -> Array<String>{
+        if (!built) {
+            return []
+        }
         var word = target.lowercased()
         var endNode: Node? = root
         for char in word.characters{

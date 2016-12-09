@@ -35,9 +35,14 @@ class KeyboardViewController: UIInputViewController {
         // Add custom view sizing constraints here
     }
     
+    override func loadView() {
+        print("pre Super load view");
+        super.loadView()
+        print("loaded view");
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         // Perform custom UI setup here
         self.nextKeyboardButton = UIButton(type: .system)
@@ -92,8 +97,17 @@ class KeyboardViewController: UIInputViewController {
         */
         initLayout(screenKeyboardRatio: keyBoardLayOut.screenKeyBoardRatioPortrait)    // set size and layout
         _updateSelect(target: currentXY)    // update selection
-        readFile()                          // load word file
-        suggestion.buildTree(words: dictionary) // build prediction tree
+        
+
+        DispatchQueue.global(qos: .background).async {
+            self.readFile()
+            DispatchQueue.main.async {
+                self.suggestion.buildTree(words: self.dictionary)
+            }
+        }
+        
+        //readFile()                          // load word file
+        //suggestion.buildTree(words: dictionary) // build prediction tree
         
         
         btManager.boot(kbControl: self)
