@@ -367,6 +367,7 @@ class KeyboardViewController: UIInputViewController {
     private var keyboardView: UIView!
     private var currentXY: (x: Int, y: Int) = (x: 2, y: 5)  // start with 'H'
     private var isUpper = true  // if uppercase character is shown
+    private var isNumber = false  // if number key is shown
     private var layoutGrid = Array<Array<UIButton>?>()
     private var suggestion = prefixTree()
     private var dictionary: Array<String> = []
@@ -456,6 +457,13 @@ class KeyboardViewController: UIInputViewController {
     */
     @IBAction func caseKeyPressed(sender: UIButton!){
         /// convert image
+        
+        
+        //disable case change when in number keyboard
+        if (isNumber){
+            return
+        }
+        
         var image: UIImage = sender.backgroundImage(for: .normal)!
         let postFix: String = isPortrait ? "Portrait" : "LandScape"
         if isUpper{
@@ -470,27 +478,65 @@ class KeyboardViewController: UIInputViewController {
         selectButton(button: sender)
     }
     
-    //for change to number
-    @IBAction func numberkey(sender: UIButton!){
-        //change all keys to number
-        for button in forthRow{
-            button.setTitle(button.currentTitle!.uppercased(), for: UIControlState.normal)
+    @IBAction func numberKey(sender: UIButton!) {
+        //change all keys to regualr
+        if isNumber{
+            print ("is isNumber")
+            var forthRow_letter = ["q", "w", "e", "r", "t","y", "u", "i", "o", "p"]
+            var thirdRow_letter = ["a", "s", "d", "f", "g","h", "j", "k", "l"]
+            var secondRow_letter = ["z", "x", "c", "v", "b","n", "m"]
+            
+        
+            var i = 0
+            
+            for button in forthRow{
+                button.setTitle(forthRow_letter[i], for: UIControlState.normal)
+                i += 1
+            }
+            i = 0
+            for button in thirdRow{
+                button.setTitle(thirdRow_letter[i], for: UIControlState.normal)
+                i += 1
+            }
+            i = 0
+            for idx in 1..<secondRow.count-1{
+                let button = secondRow[idx]
+                button.setTitle(secondRow_letter[i], for: UIControlState.normal)
+                i += 1
+            }
         }
-        for button in thirdRow{
-            button.setTitle(button.currentTitle!.uppercased(), for: UIControlState.normal)
+            //change all keys to number
+        else{
+            print ("not isNumber")
+            
+            var forthRow_letter = ["1", "2", "3", "4", "5","6", "7", "8", "9", "0"]
+            var thirdRow_letter = ["-", "/", ":", ";", "(",")", "$", "&", "@"]
+            var secondRow_letter = [".", ",", "?", "!", "'","~", "="]
+            
+            var i = 0
+            
+            for button in forthRow{
+                button.setTitle(forthRow_letter[i], for: UIControlState.normal)
+                i += 1
+            }
+            i = 0
+            for button in thirdRow{
+                button.setTitle(thirdRow_letter[i], for: UIControlState.normal)
+                i += 1
+            }
+            i = 0
+            for idx in 1..<secondRow.count-1{
+                let button = secondRow[idx]
+                button.setTitle(secondRow_letter[i], for: UIControlState.normal)
+                i += 1
+            }
+            
         }
-        for idx in 1..<secondRow.count-1{
-            let button = secondRow[idx]
-            button.setTitle(button.currentTitle!.uppercased(), for: UIControlState.normal)
-        }
-        
-        
-        
-        
-        
+        isNumber = !isNumber
+        selectButton(button: sender)
         
     }
-    
+
     /** mocking bluetooth signal */
     @IBAction func btMove(sender: UIButton!){
         switch sender.currentTitle! {
