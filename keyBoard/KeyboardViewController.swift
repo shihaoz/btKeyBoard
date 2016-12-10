@@ -40,7 +40,21 @@ class KeyboardViewController: UIInputViewController {
         super.loadView()
         print("loaded view");
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        /**
+         @reason for fast load
+         @credit to murat
+         */
+        DispatchQueue.global(qos: .background).async {
+            self.readFile()
+            DispatchQueue.main.async {
+                self.suggestion.buildTree(words: self.dictionary)
+            }
+        }
+        
+        btManager.boot(kbControl: self)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -98,19 +112,6 @@ class KeyboardViewController: UIInputViewController {
         initLayout(screenKeyboardRatio: keyBoardLayOut.screenKeyBoardRatioPortrait)    // set size and layout
         _updateSelect(target: currentXY)    // update selection
         
-
-        DispatchQueue.global(qos: .background).async {
-            self.readFile()
-            DispatchQueue.main.async {
-                self.suggestion.buildTree(words: self.dictionary)
-            }
-        }
-        
-        //readFile()                          // load word file
-        //suggestion.buildTree(words: dictionary) // build prediction tree
-        
-        
-        btManager.boot(kbControl: self)
     }
     deinit {
         print("--------> destructing  <--------")
