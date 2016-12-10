@@ -603,7 +603,7 @@ class KeyboardViewController: UIInputViewController {
     private func _textChange(){
         var list: Array<String> = []
         if textDocumentProxy.documentContextBeforeInput != nil{
-            var targetWord = textDocumentProxy.documentContextBeforeInput! + (textDocumentProxy.documentContextAfterInput ?? "")
+            var targetWord = textDocumentProxy.documentContextBeforeInput!
             /**
              when user input looks like "abc  abd   ", ends in a whitespace, that means no completion is needed
              otherwise complete on the last word --> e.g. "abc abd" will complete on abd,
