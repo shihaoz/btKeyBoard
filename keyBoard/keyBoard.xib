@@ -97,7 +97,7 @@
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="donothingWithSender:" destination="-1" eventType="touchUpInside" id="SbJ-Se-zJF"/>
+                        <action selector="numberKeyWithSender:" destination="-1" eventType="touchUpInside" id="SQd-ev-Iix"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S0f-M8-vnU">
@@ -325,7 +325,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.59478838710000004" green="0.63930897909999995" blue="0.65650390619999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                    <state key="normal" backgroundImage="backSpacePortrait">
+                    <state key="normal" backgroundImage="backspacePortrait">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -413,6 +413,6 @@
     </objects>
     <resources>
         <image name="UpperCasePortrait" width="39" height="39"/>
-        <image name="backSpacePortrait" width="38" height="37"/>
+        <image name="backspacePortrait" width="38" height="37"/>
     </resources>
 </document>
