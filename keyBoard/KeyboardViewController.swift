@@ -504,6 +504,9 @@ class KeyboardViewController: UIInputViewController {
                 button.setTitle(secondRow_letter[i], for: UIControlState.normal)
                 i += 1
             }
+            
+            numberKey.setTitle("123", for: UIControlState.normal)
+
         }
             //change all keys to number
         else{
@@ -530,6 +533,8 @@ class KeyboardViewController: UIInputViewController {
                 button.setTitle(secondRow_letter[i], for: UIControlState.normal)
                 i += 1
             }
+            
+            numberKey.setTitle("abc", for: UIControlState.normal)
             
         }
         isNumber = !isNumber
@@ -811,6 +816,7 @@ class KeyboardViewController: UIInputViewController {
         update suggested words
      */
     private func _textChange(){
+        
         var list: Array<String> = []
         if textDocumentProxy.documentContextBeforeInput != nil{
             var targetWord = textDocumentProxy.documentContextBeforeInput! + (textDocumentProxy.documentContextAfterInput ?? "")
@@ -824,6 +830,16 @@ class KeyboardViewController: UIInputViewController {
             }
             else{
                 targetWord = targetWord.components(separatedBy: " ").last!   // complete on last word
+                
+                let letters = CharacterSet.letters
+     
+                for uni in targetWord.unicodeScalars {
+                    if !letters.contains(uni) {
+                        return
+                    }
+                }
+                
+            
                 list = suggestion.getSuggestion(target: targetWord)
                 let firstChar = targetWord.substring(to: targetWord.index(targetWord.startIndex, offsetBy: 1))
                 let firstCharLower = firstChar.lowercased()
