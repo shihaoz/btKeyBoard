@@ -837,6 +837,13 @@ class KeyboardViewController: UIInputViewController {
      
                 for uni in targetWord.unicodeScalars {
                     if !letters.contains(uni) {
+                        DispatchQueue.global(qos: .userInitiated).async {
+                            DispatchQueue.main.async {
+                                for i in 0..<self.completeRow.count{
+                                    self.completeRow[i].setTitle(" ", for: .normal)
+                                }
+                            }
+                        }
                         return
                     }
                 }
