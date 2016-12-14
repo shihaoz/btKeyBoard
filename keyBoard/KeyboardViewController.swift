@@ -488,6 +488,11 @@ class KeyboardViewController: UIInputViewController {
             var thirdRow_letter = ["a", "s", "d", "f", "g","h", "j", "k", "l"]
             var secondRow_letter = ["z", "x", "c", "v", "b","n", "m"]
             
+            isUpper = false
+            let postFix: String = isPortrait ? "Portrait" : "LandScape"
+            var image = UIImage(named: "LowerCase\(postFix)")!
+            caseKey.setBackgroundImage(image, for: UIControlState.normal)
+            
         
             var i = 0
             
